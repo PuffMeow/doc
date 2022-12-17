@@ -5,6 +5,7 @@ export default defineConfig({
   publicPath: '/doc/',
   hash: true,
   themeConfig: {
+    logo: 'https://i.niupic.com/images/2022/12/17/ae1R.png',
     name: 'Study',
     nav: [
       { title: '前端', link: '/front-end' },
