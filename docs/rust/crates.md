@@ -1,0 +1,31 @@
+---
+title: 常用 crates
+---
+
+### crate.io
+
+Rust 搜索开发包的地方，类似于 NPM，[Rust crate.io](https://crates.io/)
+
+### 错误处理
+
+- thiserror
+- anyhow
+
+如果你想要设计自己的错误类型，同时给调用者提供具体的信息时，就使用 `thiserror`; 当你在开发一个三方库代码时或者自己应用中使用，就使用 `anyhow`
+
+### 时间和日期处理
+
+- chrono
+
+### 网络请求
+
+- reqwest
+
+### 数字处理
+
+- num
+- rand 随机数
+
+### 命令行
+
+- clap 以声明方式或过程方式创建带有所有附加功能的命令行解析器
