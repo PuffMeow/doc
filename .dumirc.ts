@@ -12,6 +12,7 @@ export default defineConfig({
       { title: 'Rust', link: '/rust' },
       { title: '服务端', link: '/back-end' },
       { title: '数据结构', link: '/data-struct' },
+      { title: '计网', link: '/network' },
     ],
     footer: '@2022-BesideWithYou',
   },
