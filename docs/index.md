@@ -23,6 +23,9 @@ hero:
     - theme: alt
       text: Rust
       link: /rust/
+    - theme: alt
+      text: 算法学习
+      link: /algorithm/
 
 features:
   - title: 前端体系

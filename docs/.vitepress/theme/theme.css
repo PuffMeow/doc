@@ -9,23 +9,7 @@ iframe {
     max-width: 1000px !important;
 }
 
-/* .aside{
-    display:none !important;
-  }  */
-/* html{
-    filter: grayscale(100%);
-    -webkit-filter: grayscale(100%);
-    -moz-filter: grayscale(100%);
-    -ms-filter: grayscale(100%);
-    -o-filter: grayscale(100%);
-    filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1);
-    -webkit-filter: grayscale(1);
-    filter:gray !important;
-  }
-  .VPImage{
-    filter:none;
-    -webkit-filter: none;
-  } */
+
 
 .btn {
     padding: 5px 8px;
