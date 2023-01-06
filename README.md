@@ -1,20 +1,21 @@
 # doc
 
-A static site base on [dumi](https://d.umijs.org).
+A static site base on vitepress
 
-## Development
+# clone to your local
 
-```bash
-# install dependencies
-$ pnpm install
-
-# start dev server
-$ pnpm start
-
-# build docs
-$ pnpm run build
+```
+git clone https://github.com/BesideWithYou/doc.git
 ```
 
-## LICENSE
+# run
 
-MIT
+```
+yarn docs:dev
+```
+
+# build
+
+```
+yarn docs:build
+```
