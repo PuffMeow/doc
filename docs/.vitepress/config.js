@@ -1,6 +1,10 @@
 export default {
+  base: "/doc/",
   lastUpdated: true,
   lastUpdatedText: "更新时间",
+  markdown: {
+    lineNumbers: true,
+  },
   editLink: {
     pattern: "https://github.com/vuejs/vitepress/edit/main/docs/:path",
     text: "编辑此页",
