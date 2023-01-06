@@ -183,7 +183,7 @@ alter table employer add nickname varchar(20) comment '昵称';
 
 ### 修改数据类型
 
-```sq
+```sql
 ALTER TABLE 表名 M0DIFY 字段名 新数据类型(长度);
 ```
 

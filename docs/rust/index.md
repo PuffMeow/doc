@@ -1,6 +1,3 @@
----
-title: Rust
----
+### Rust 学习篇
 
-> Rust
-> WebAssembly
+来一起快乐的入门吧！

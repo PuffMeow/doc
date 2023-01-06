@@ -9,13 +9,19 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - run: npm install
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: yarn
+      - run: yarn install --frozen-lockfile
       # 文档编译命令，如果是 react 模板需要修改为 npm run docs:build
-      - run: npm run build
+      - run: yarn docs:build
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          # 文档目录，如果是 react 模板需要修改为 docs-dist
-          publish_dir: ./dist
+          # 文档输出目录
+          publish_dir: docs/.vitepress/dist
