@@ -35,7 +35,7 @@ export default {
         {
           text: "TypeScript",
           collapsible: true,
-          items: [{ text: "TS", link: "/frontend/typescript/" }],
+          items: [{ text: "装饰器", link: "/frontend/typescript/decorator" }],
         },
         {
           text: "React",
