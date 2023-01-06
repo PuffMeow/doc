@@ -1,1 +1,0 @@
-import{_ as e,c as t,o as n}from"./app.6858a785.js";const f=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"frontend/typescript/index.md","lastUpdated":1673020022000}'),r={name:"frontend/typescript/index.md"};function a(o,s,c,d,p,i){return n(),t("div")}const m=e(r,[["render",a]]);export{f as __pageData,m as default};
