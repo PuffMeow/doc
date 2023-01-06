@@ -4,6 +4,16 @@ export default {
   base: "/doc/",
   lastUpdated: true,
   lastUpdatedText: "更新时间",
+  head: [
+    [
+      "link",
+      {
+        rel: "shortcut icon",
+        href: "https://i.niupic.com/images/2023/01/06/aeYt.png",
+        type: "image/x-icon",
+      },
+    ],
+  ],
   markdown: {
     lineNumbers: true,
   },
