@@ -1,54 +1,51 @@
 .iframe,
 iframe {
-    width: 100%;
-    height: 666px;
-
+  width: 100%;
+  height: 666px;
 }
 
 .VPDoc.has-aside .content-container {
-    max-width: 1000px !important;
+  max-width: 1000px !important;
 }
 
-
-
 .btn {
-    padding: 5px 8px;
-    color: white;
-    background: var(--vp-c-brand);
-    border: 1px solid var(--vp-c-brand);
-    border-radius: 4px;
+  padding: 5px 8px;
+  color: white;
+  background: var(--vp-c-brand);
+  border: 1px solid var(--vp-c-brand);
+  border-radius: 4px;
 }
 
 .vp-doc h2 {
-    margin: 16px 0;
+  margin: 16px 0;
 }
 
 .gpt-fix-window {
-    position: fixed;
-    right: 10px;
-    bottom: 400px;
-    width: 280px;
-    list-style: none;
-    /* border:1px solid var(--vp-c-brand); */
-    padding: 10px;
-    font-size: 14px;
+  position: fixed;
+  right: 10px;
+  bottom: 400px;
+  width: 280px;
+  list-style: none;
+  /* border:1px solid var(--vp-c-brand); */
+  padding: 10px;
+  font-size: 14px;
 }
 
 .gpt-item {
-    display: inline-block;
-    float: right;
-    font-size: 16px;
+  display: inline-block;
+  float: right;
+  font-size: 16px;
 }
 
 .vp-doc p {
-    margin: 6px 0;
-    line-height: 26px;
-    font-size: 18px;
+  margin: 6px 0;
+  line-height: 26px;
+  font-size: 18px;
 }
 
 h4 {
-    font-size: 24px;
-    margin-top: 20px;
+  font-size: 24px;
+  margin-top: 20px;
 }
 
 /* .VPNav{
@@ -59,6 +56,6 @@ h4 {
   } */
 
 pre {
-    white-space: pre-wrap;
-    word-wrap: break-word;
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }

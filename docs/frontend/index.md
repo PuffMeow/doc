@@ -1,4 +1,4 @@
-## 前端好多东西要学啊
+## 来一起快乐学习前端
 
 - JavaScript
 - TypeScript

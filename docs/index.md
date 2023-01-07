@@ -12,10 +12,10 @@ hero:
   image:
     src: https://avatars.githubusercontent.com/u/63894579?v=4
     alt: 泡芙~
-    style: "border-radius: 50%"
+    style: 'border-radius: 50%'
   actions:
     - theme: brand
-      text: 前端体系
+      text: 前端
       link: /frontend/
     - theme: alt
       text: 服务端
@@ -23,12 +23,9 @@ hero:
     - theme: alt
       text: Rust
       link: /rust/
-    - theme: alt
-      text: 算法学习
-      link: /algorithm/
 
 features:
-  - title: 前端体系
+  - title: 前端
     details: JS、TS、WASM、React、Node.Js、喵喵喵
   - title: 服务端
     details: 数据库、中间件、喵喵喵

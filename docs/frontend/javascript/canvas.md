@@ -125,7 +125,7 @@ title: Canvas
   <script>
     function getCtx(cvsId) {
       const cvs = document.getElementById(cvsId);
-      const ctx = cvs.getContext("2d");
+      const ctx = cvs.getContext('2d');
 
       return { cvs, ctx };
     }
@@ -138,7 +138,7 @@ title: Canvas
 ```js
 (function line() {
   // 画直线
-  const { ctx } = getCtx("line");
+  const { ctx } = getCtx('line');
 
   // 起点坐标 x y
   ctx.moveTo(100, 100);
@@ -148,9 +148,9 @@ title: Canvas
   // 修改线的宽度
   ctx.lineWidth = 20;
   // 修改直线的颜色
-  ctx.strokeStyle = "pink";
+  ctx.strokeStyle = 'pink';
   // 修改直线两端样式
-  ctx.lineCap = "round"; // 默认: butt; 圆形: round; 方形: square
+  ctx.lineCap = 'round'; // 默认: butt; 圆形: round; 方形: square
   // 连接起点和终点
   ctx.stroke();
 
@@ -159,8 +159,8 @@ title: Canvas
   ctx.moveTo(0, 0);
   ctx.lineTo(100, 100);
   ctx.lineWidth = 10;
-  ctx.lineCap = "round";
-  ctx.strokeStyle = "blue";
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = 'blue';
   ctx.stroke();
 })();
 ```
@@ -170,12 +170,12 @@ title: Canvas
 ```js
 // 画折线
 (function brokenLine() {
-  const { ctx } = getCtx("brokenLine");
+  const { ctx } = getCtx('brokenLine');
   ctx.moveTo(0, 10);
   ctx.lineTo(100, 100);
   ctx.lineTo(200, 10);
   ctx.lineTo(300, 100);
-  ctx.strokeStyle = "skyBlue";
+  ctx.strokeStyle = 'skyBlue';
   ctx.lineWidth = 4;
   ctx.stroke();
 })();
@@ -186,7 +186,7 @@ title: Canvas
 ```js
 // 用线段直接画矩形
 (function rect() {
-  const { ctx } = getCtx("rect");
+  const { ctx } = getCtx('rect');
   ctx.moveTo(10, 10);
   ctx.lineTo(100, 10);
   ctx.lineTo(100, 100);
@@ -195,25 +195,25 @@ title: Canvas
   // 和上面的方式等效
   ctx.closePath();
   ctx.lineWidth = 2;
-  ctx.strokeStyle = "pink";
+  ctx.strokeStyle = 'pink';
   ctx.stroke();
 })();
 
 // 使用 strokeRect 画矩形
 (function strokeRect() {
-  const { ctx } = getCtx("rect");
+  const { ctx } = getCtx('rect');
 
-  ctx.strokeStyle = "deepPink";
+  ctx.strokeStyle = 'deepPink';
   ctx.strokeRect(50, 50, 100, 100);
 
   // 使用 fillRect 来填充矩形
-  ctx.fillStyle = "yellow";
+  ctx.fillStyle = 'yellow';
   ctx.fillRect(50, 50, 100, 100);
 })();
 
 // 使用 clearRect 清空指定区域
 (function clear() {
-  const { ctx, cvs } = getCtx("rect");
+  const { ctx, cvs } = getCtx('rect');
   setTimeout(() => {
     ctx.clearRect(50, 50, 50, 50);
   }, 2000);
@@ -226,7 +226,7 @@ title: Canvas
 
 // 画多边形
 (function polygon() {
-  const { ctx } = getCtx("polygon");
+  const { ctx } = getCtx('polygon');
 
   ctx.moveTo(50, 50);
   ctx.lineTo(200, 50);
@@ -234,7 +234,7 @@ title: Canvas
   // 手动闭合
   ctx.closePath();
 
-  ctx.lineJoin = "miter"; // 线条连接的样式。miter: 默认; bevel: 斜面; round: 圆角
+  ctx.lineJoin = 'miter'; // 线条连接的样式。miter: 默认; bevel: 斜面; round: 圆角
   ctx.lineWidth = 10;
   ctx.stroke();
 })();
@@ -250,7 +250,7 @@ title: Canvas
   // counterclockwise 绘制方向 true 逆时针， false 顺时针，默认 false
   // 100° 应写成 100 * (Math.PI / 180)
 
-  const { ctx } = getCtx("circle");
+  const { ctx } = getCtx('circle');
   ctx.beginPath();
   ctx.arc(150, 150, 50, 0, 360 * (Math.PI / 180));
   ctx.closePath();
@@ -264,7 +264,7 @@ title: Canvas
 ```js
 // 画个半圆
 (function halfCirle() {
-  const { ctx } = getCtx("half-circle");
+  const { ctx } = getCtx('half-circle');
 
   ctx.beginPath();
   // 半圆在下方
@@ -287,7 +287,7 @@ title: Canvas
 ```js
 // 画个椭圆
 (function ellipse() {
-  const { ctx } = getCtx("ellipse");
+  const { ctx } = getCtx('ellipse');
   // 圆心坐标x,y，x,y轴半径，椭圆旋转角度，开始绘制点，结束绘制点，时针方向
   // ellipse(x, y, radiusX, radiusY, rotation, startAngle, endAngle, anticlockwise)
   ctx.beginPath();
@@ -309,7 +309,7 @@ title: Canvas
 ```js
 // 画个弧线
 (function halfCirle() {
-  const { ctx } = getCtx("arc");
+  const { ctx } = getCtx('arc');
 
   ctx.beginPath();
   // 画个0到90度的弧线
@@ -324,24 +324,24 @@ title: Canvas
 ```js
 // 画文本，在绘制文字的时候，默认是以文字的左下角作为参考点进行绘制
 (function txt() {
-  const { ctx } = getCtx("txt");
+  const { ctx } = getCtx('txt');
   // 设置文字样式
-  ctx.font = "60px 宋体";
+  ctx.font = '60px 宋体';
   // 设置文本描边颜色
-  ctx.strokeStyle = "pink";
+  ctx.strokeStyle = 'pink';
   // 超出 maxWidth 的部分将会被压缩
   // strokeText(text, x, y, maxWidth);
-  ctx.strokeText("嘻嘻", 50, 100, 300);
+  ctx.strokeText('嘻嘻', 50, 100, 300);
 
-  const haha = "哈哈";
+  const haha = '哈哈';
   // 设置填充颜色
-  ctx.fillStyle = "deepPink";
+  ctx.fillStyle = 'deepPink';
   // 填充文本
   ctx.fillText(haha, 50, 200);
 
   // 获取文本的长度
   const txtLen = ctx.measureText(haha).width;
-  ctx.font = "30px";
+  ctx.font = '30px';
   ctx.fillText(`长度：${txtLen}`, 0, 260);
 
   // 文字水平对齐
@@ -358,9 +358,9 @@ title: Canvas
 (function img() {
   // 要渲染的图片，图片左上角横坐标和纵坐标
   // drawImage(image, dx, dy, dw, dh)
-  const { ctx } = getCtx("img");
+  const { ctx } = getCtx('img');
   const image = new Image();
-  image.src = "https://i.niupic.com/images/2022/12/17/ae22.png";
+  image.src = 'https://i.niupic.com/images/2022/12/17/ae22.png';
   // 可以通过网络去加载图片，也可以通过 dom 去获取
   // 比如 const img = document.getElementById("img");
   // 再把 img 渲染上去
@@ -371,9 +371,9 @@ title: Canvas
 
 // 截取图片
 (function cutImg() {
-  const { ctx } = getCtx("img2");
+  const { ctx } = getCtx('img2');
   const image = new Image();
-  image.src = "https://i.niupic.com/images/2022/12/17/ae22.png";
+  image.src = 'https://i.niupic.com/images/2022/12/17/ae22.png';
   image.onload = () => {
     // 前面多了4个参数，截取的位置x,y和截取的宽高w,h
     ctx.drawImage(image, 50, 100, 100, 100, 0, 0, 300, 300);
@@ -385,7 +385,7 @@ title: Canvas
 
 ```js
 (function animation() {
-  const { ctx, cvs } = getCtx("animation");
+  const { ctx, cvs } = getCtx('animation');
   const ball = {
     x: 15,
     y: 15,
@@ -394,7 +394,7 @@ title: Canvas
     vx: 1,
     // 纵向加速度
     vy: 3,
-    color: "pink",
+    color: 'pink',
     draw: function () {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, 360 * (Math.PI / 180));
@@ -473,12 +473,12 @@ title: Canvas
 
 ```js
 (function gradient() {
-  const { ctx } = getCtx("gradient");
+  const { ctx } = getCtx('gradient');
 
   // 创建渐变
   const gradient = ctx.createLinearGradient(10, 10, 200, 10);
-  gradient.addColorStop(0, "pink");
-  gradient.addColorStop(0.8, "deepPink");
+  gradient.addColorStop(0, 'pink');
+  gradient.addColorStop(0.8, 'deepPink');
 
   ctx.fillStyle = gradient;
   ctx.fillRect(10, 10, 200, 100);
@@ -499,12 +499,12 @@ title: Canvas
 
 ```js
 (function radialGradient() {
-  const { ctx } = getCtx("radialGradient");
+  const { ctx } = getCtx('radialGradient');
 
   // 创建渐变
   const gradient = ctx.createRadialGradient(150, 150, 150, 150, 150, 0);
-  gradient.addColorStop(0, "pink");
-  gradient.addColorStop(0.8, "deepPink");
+  gradient.addColorStop(0, 'pink');
+  gradient.addColorStop(0.8, 'deepPink');
 
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, 300, 300);

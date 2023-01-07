@@ -25,9 +25,9 @@
  * target属性就是使用装饰器的那个类
  */
 function logClass(target: any) {
-  target.prototype.api = "http://www.baidu.com";
+  target.prototype.api = 'http://www.baidu.com';
   target.prototype.hello = () => {
-    console.log("hello world");
+    console.log('hello world');
   };
 }
 
@@ -58,7 +58,7 @@ function logClass(params: string) {
   };
 }
 
-@logClass("hello world")
+@logClass('hello world')
 class Http {
   constructor() {}
 }
@@ -74,9 +74,9 @@ http.hello(); //打印hello world
 ```typescript
 function logClass(target: any) {
   return class extends target {
-    api: string = "修改后的api";
+    api: string = '修改后的api';
     getData() {
-      console.log("修改:", this.api);
+      console.log('修改:', this.api);
     }
   };
 }
@@ -85,7 +85,7 @@ function logClass(target: any) {
 class Http {
   public api: string | undefined;
   constructor() {
-    this.api = "没修改前的api";
+    this.api = '没修改前的api';
   }
 
   getData() {
@@ -119,7 +119,7 @@ function logProperty(params: any) {
 }
 
 class Http {
-  @logProperty("属性装饰器赋值")
+  @logProperty('属性装饰器赋值')
   public api: string | undefined;
   constructor() {}
 
@@ -175,13 +175,13 @@ function get(params: any) {
 class Http {
   constructor() {}
 
-  @get("http://www.baidu.com")
+  @get('http://www.baidu.com')
   getApi() {}
 }
 
 const http: any = new Http();
 
-http.getApi("123", "456", "789"); //打印[123, 456, 789]
+http.getApi('123', '456', '789'); //打印[123, 456, 789]
 ```
 
 ### 方法参数装饰器
@@ -203,7 +203,7 @@ function logParams(param: any) {
 
 class Http {
   constructor() {}
-  getApi(@logParams("id") id: number) {
+  getApi(@logParams('id') id: number) {
     console.log(id);
   }
 }
@@ -223,22 +223,22 @@ http.getApi(123456);
 ```typescript
 // 先进行一些装饰器的定义
 function logClass1(target: any) {
-  console.log("logClass1");
+  console.log('logClass1');
 }
 
 function logClass2(target: any) {
-  console.log("logClass2");
+  console.log('logClass2');
 }
 
 function logAttribute1(param?: any) {
   return function (target: any, attrName: string) {
-    console.log("attribute1");
+    console.log('attribute1');
   };
 }
 
 function logAttribute2(param?: any) {
   return function (target: any, attrName: string) {
-    console.log("attribute2");
+    console.log('attribute2');
   };
 }
 
@@ -248,7 +248,7 @@ function logMethod1(param?: any) {
     methodName: string,
     descriptor: PropertyDescriptor
   ) {
-    console.log("logMethod1");
+    console.log('logMethod1');
   };
 }
 
@@ -258,19 +258,19 @@ function logMethod2(param?: any) {
     methodName: string,
     descriptor: PropertyDescriptor
   ) {
-    console.log("logMethod2");
+    console.log('logMethod2');
   };
 }
 
 function logParam1(param?: any) {
   return function (target: any, methodName: string, index: number) {
-    console.log("logParam1");
+    console.log('logParam1');
   };
 }
 
 function logParam2(param?: any) {
   return function (target: any, methodName: string, index: number) {
-    console.log("logParam2");
+    console.log('logParam2');
   };
 }
 

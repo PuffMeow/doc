@@ -1,9 +1,9 @@
-import DefaultTheme from "vitepress/theme";
+import DefaultTheme from 'vitepress/theme';
 
 // @ts-ignore
-import NotFound from "./NotFound.vue";
+import NotFound from './NotFound.vue';
 
-import "./theme.css";
+import './theme.css';
 
 export default {
   ...DefaultTheme,

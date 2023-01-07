@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useData } from 'vitepress'
-const { site,theme } = useData()
+import { useData } from 'vitepress';
+const { site } = useData();
 </script>
 
 <template>
@@ -8,21 +8,17 @@ const { site,theme } = useData()
     <p class="code">404</p>
     <h1 class="title">找不到该页了🦆</h1>
     <div class="divider" />
-    <p class="message">
-      若无闲事挂心头，便是人间好时节
-    </p>
+    <p class="message">若无闲事挂心头，便是人间好时节</p>
     <div class="action">
-      <a class="link" :href="site.base" aria-label="go to home">
-        回首页
-      </a>
+      <a class="link" :href="site.base" aria-label="go to home"> 回首页 </a>
     </div>
   </div>
 </template>
 
 <style scoped>
-.message{
+.message {
   margin: 10px auto;
-  width:250px;
+  width: 250px;
   text-align: center;
 }
 .NotFound {
@@ -50,7 +46,7 @@ const { site,theme } = useData()
   margin: 24px auto 18px;
   width: 64px;
   height: 1px;
-  background-color: var(--vp-c-divider)
+  background-color: var(--vp-c-divider);
 }
 .quote {
   margin: 0 auto;
@@ -70,7 +66,7 @@ const { site,theme } = useData()
   font-size: 14px;
   font-weight: 500;
   color: var(--vp-c-brand);
-  transition: border-color 0.25s, color .25s;
+  transition: border-color 0.25s, color 0.25s;
 }
 .link:hover {
   border-color: var(--vp-c-brand-dark);
