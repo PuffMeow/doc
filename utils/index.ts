@@ -2,9 +2,6 @@ import fs from 'fs-extra';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
 function getDirsPathInRoot(rootDirName: string) {
   return fs
     .readdirSync(rootDirName)
@@ -32,7 +29,7 @@ function getItemsPath(rootDirPath: string, rootDirName: string) {
     });
 
   return items.map((dirPath) => {
-    const pathArray = dirPath.filePath.split('\\');
+    const pathArray = dirPath.filePath.split(path.sep);
 
     const docParentDirNameIdx = pathArray.findIndex(
       (item) => item === rootDirName
