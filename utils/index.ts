@@ -6,7 +6,7 @@ function getDirsPathInRoot(rootDirName: string) {
     .readdirSync(rootDirName)
     .filter((filePath) => !filePath.endsWith('.md'))
     .map((dir) => {
-      const filePath = path.resolve(__dirname, rootDirName, dir);
+      const filePath = path.resolve(rootDirName, dir);
       return {
         filePath,
         fileName: path.basename(dir),
@@ -19,7 +19,7 @@ function getItemsPath(rootDirPath: string, rootDirName: string) {
     .readdirSync(rootDirPath)
     .filter((path) => path.endsWith('.md'))
     .map((dir) => {
-      const dirPath = path.resolve(__dirname, rootDirPath, dir);
+      const dirPath = path.resolve(rootDirPath, dir);
 
       return {
         filePath: dirPath,
@@ -48,7 +48,7 @@ function getItemsPath(rootDirPath: string, rootDirName: string) {
 /** 获取 SideBar 配置，填写docs下的一个根目录名称 */
 export function getSideBarConfig(rootDirName: string) {
   const dirs = getDirsPathInRoot(
-    path.resolve(__dirname, '../docs/', rootDirName)
+    path.resolve(process.cwd(), 'doc', '../docs/', rootDirName)
   );
 
   return dirs.map((dir) => {
