@@ -1,5 +1,9 @@
 import fs from 'fs-extra';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 function getDirsPathInRoot(rootDirName: string) {
   return fs
@@ -48,7 +52,7 @@ function getItemsPath(rootDirPath: string, rootDirName: string) {
 /** 获取 SideBar 配置，填写docs下的一个根目录名称 */
 export function getSideBarConfig(rootDirName: string) {
   const dirs = getDirsPathInRoot(
-    path.resolve(process.cwd(), 'doc', '../docs/', rootDirName)
+    path.resolve(__dirname, '../docs', rootDirName)
   );
 
   return dirs.map((dir) => {
