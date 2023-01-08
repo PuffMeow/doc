@@ -6,7 +6,7 @@ function getDirsPathInRoot(rootDirName: string) {
     .readdirSync(rootDirName)
     .filter((filePath) => !filePath.endsWith('.md'))
     .map((dir) => {
-      const filePath = path.resolve(rootDirName, dir);
+      const filePath = path.resolve(__dirname, rootDirName, dir);
       return {
         filePath,
         fileName: path.basename(dir),
@@ -19,7 +19,7 @@ function getItemsPath(rootDirPath: string, rootDirName: string) {
     .readdirSync(rootDirPath)
     .filter((path) => path.endsWith('.md'))
     .map((dir) => {
-      const dirPath = path.resolve(rootDirPath, dir);
+      const dirPath = path.resolve(__dirname, rootDirPath, dir);
 
       return {
         filePath: dirPath,
