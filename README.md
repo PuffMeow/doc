@@ -5,7 +5,7 @@ A static site base on vitepress
 # clone to your local
 
 ```
-git clone https://github.com/BesideWithYou/doc.git
+git clone https://github.com/PuffMiaow/doc.git
 ```
 
 # run

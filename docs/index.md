@@ -2,12 +2,12 @@
 layout: home
 sidebar: false
 
-title: 与你同在的学习空间
-titleTemplate: 每天进步一点点
+title: 喵喵喵？
+titleTemplate: 一往无前虎山行，拔开云雾见光明
 
 hero:
-  name: 与你同在的学习空间
-  text: 每天进步一点点
+  name: 喵喵喵
+  text: 一往无前虎山行，拔开云雾见光明
   tagline: 前端、服务端、Rust 一站式学习记录网站
   image:
     src: https://avatars.githubusercontent.com/u/63894579?v=4

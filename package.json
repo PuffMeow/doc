@@ -2,7 +2,7 @@
   "name": "doc",
   "version": "0.0.1",
   "main": "index.js",
-  "repository": "git@github.com:BesideWithYou/doc.git",
+  "repository": "git@github.com:PuffMiaow/doc.git",
   "author": "JiquanWang99 <951873902@qq.com>",
   "license": "MIT",
   "scripts": {
