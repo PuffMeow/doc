@@ -1,1 +1,0 @@
-import{_ as e,c as t,o as a}from"./app.67031145.js";const m=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"backend/Node.js/BFF笔记.md","lastUpdated":1673174653000}'),o={name:"backend/Node.js/BFF笔记.md"};function s(r,c,n,d,_,p){return a(),t("div")}const f=e(o,[["render",s]]);export{m as __pageData,f as default};
