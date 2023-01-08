@@ -26,7 +26,7 @@ hero:
 
 features:
   - title: 前端
-    details: JS、TS、WASM、React、Node.Js、喵喵喵
+    details: JS、TS、WASM、React、喵喵喵
   - title: 服务端
     details: 数据库、中间件、喵喵喵
   - title: Rust
