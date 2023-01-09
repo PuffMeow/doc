@@ -2,8 +2,8 @@ import themeConfig from '../../themeConfig';
 
 // 配置地址:https://vitepress.vuejs.org/guide/configuration
 export default {
-  title: 'PuffMiaow',
-  description: 'PuffMiaow',
+  title: 'PuffMeow',
+  description: 'PuffMeow',
   base: '/doc/',
   lastUpdated: true,
   head: [
@@ -26,16 +26,16 @@ export default {
   themeConfig: {
     ...themeConfig,
     lastUpdatedText: '更新时间',
-    siteTitle: '喵喵爱学习',
+    siteTitle: '学习使我快乐',
     footer: {
       message: '每天进步一丢丢',
-      copyright: 'Copyright © 2023 PuffMiaow',
+      copyright: 'Copyright © 2023 PuffMeow',
     },
     logo: 'https://i.niupic.com/images/2023/01/06/aeYt.png',
     socialLinks: [
       {
         icon: 'github',
-        link: 'https://github.com/PuffMiaow/doc',
+        link: 'https://github.com/PuffMeow/doc',
       },
     ],
   },
