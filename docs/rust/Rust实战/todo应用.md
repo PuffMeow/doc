@@ -108,7 +108,7 @@ fn main() {
 
 ## 读取文件
 
-read_file 函数位于 `src/state.rs` 目录下，该文件主要是用来存储状态操作的，里面包含读取和写入两个函数，让我们主要看下 read_file 这个函数，它的功能：
+read_file 函数位于 `src/state.rs` 路径下，该文件主要是用来存储状态操作的，里面包含读取和写入两个函数，让我们主要看下 read_file 这个函数，它的功能：
 
 - 打开文件
 - 读取文件
@@ -148,7 +148,7 @@ pub fn write_to_file(file_name: &str, state: &mut Map<String, Value>) {
 }
 ```
 
-### 状态处理工厂函数
+## 状态处理工厂函数
 
 看完文件读取操作我们再来看下第二个主要函数 todo_factory，这个函数主要是根据事件的状态和通过命令行输入的 title 事件名称，然后构建出一个相应的数据结构
 
@@ -157,6 +157,7 @@ pub fn write_to_file(file_name: &str, state: &mut Map<String, Value>) {
 它的作用主要是根据输入的 pending/done 状态，然后创建出一个对应的数据结构
 
 ```rust
+// 将 structs 向外部导出
 pub mod structs;
 use structs::done::Done;
 use structs::pending::Pending;
@@ -186,7 +187,7 @@ pub fn todo_factory(item_type: &str, item_title: &str) -> Result<ItemTypes, &'st
 }
 ```
 
-从上面的代码中我们可以看到下面这两行代码，这是我们主要需要定义的两个状态数据结构，他们位于 `src/todo/structs` 目录下
+从上面的代码中我们可以看到下面这两行代码，这是我们主要需要定义的两个状态数据结构，他们位于 `src/todo/structs` 路径下
 
 ```rust
 use structs::done::Done;
@@ -213,3 +214,289 @@ impl Base {
     }
 }
 ```
+
+现在我们用 Pending 和 Done 两个 struct 来 "继承" Base
+
+该文件位于 `src/todo/structs/pending.rs` 路径下
+
+```rust
+use super::base::Base;
+
+
+pub struct Pending {
+    pub super_struct: Base,
+}
+
+impl Pending {
+    pub fn new(input_title: &str) -> Pending {
+        Pending {
+            super_struct: Base::new(input_title, "pending"),
+        }
+    }
+}
+```
+
+该文件位于 `src/todo/structs/done.rs` 路径下
+
+```rust
+use super::base::Base;
+
+pub struct Done {
+    pub super_struct: Base,
+}
+
+impl Done {
+    pub fn new(input_title: &str) -> Done {
+        Done {
+            super_struct: Base::new(input_title, "done"),
+        }
+    }
+}
+```
+
+## Trait(特征)
+
+Trait 类似于 TS 里的 interface 接口，现在我们要为我们的 struct 来实现一些在 Trait 里面定义的方法，文件路径在
+`src/todo/structs/traits`
+
+### Create trait
+
+文件路径在 `src/todo/structs/traits/create`
+
+```rust
+use serde_json::{json, Map, Value};
+
+use crate::state::write_to_file;
+
+pub trait Create {
+    // 为这个 trait 实现一个默认的 create 方法
+    fn create(&self, title: &String, status: &String, state: &mut Map<String, Value>) {
+        state.insert(title.to_string(), json!(status));
+        write_to_file("./state.json", state);
+        println!("\n\n{} is being created\n\n", title);
+    }
+}
+```
+
+### Get trait
+
+文件路径在 `src/todo/structs/traits/get`
+
+```rust
+use serde_json::{Map, Value};
+
+pub trait Get {
+    fn get(&self, title: &String, state: &Map<String, Value>) {
+        let item = state.get(title);
+        match item {
+            Some(result) => {
+                println!("\n\nItem: {}", title);
+                println!("Status: {} \n\n", result);
+            }
+            None => println!("item: {} was not find", title),
+        }
+    }
+}
+```
+
+### Delete trait
+
+文件路径在 `src/todo/structs/traits/delete`
+
+```rust
+use serde_json::{Map, Value};
+
+use crate::state::write_to_file;
+
+pub trait Delete {
+    fn delete(&self, title: &String, state: &mut Map<String, Value>) {
+        state.remove(title);
+        write_to_file("./state.json", state);
+        println!("\n\n{} is being deleted\n\n", title);
+    }
+}
+```
+
+### Edit trait
+
+该 Trait 主要实现两个方法，一个是将事件设置为 pending 状态，一个将事件设置为 done 状态
+
+文件路径在 `src/todo/structs/traits/edit`
+
+```rust
+use serde_json::{json, Map, Value};
+
+use crate::state::write_to_file;
+
+pub trait Edit {
+    fn set_to_done(&self, title: &String, state: &mut Map<String, Value>) {
+        state.insert(title.to_string(), json!("done".to_string()));
+        write_to_file("./state.json", state);
+        println!("\n\n{} is being set to done\n\n", title);
+    }
+
+    fn set_to_pending(&self, title: &String, state: &mut Map<String, Value>) {
+        state.insert(title.to_string(), json!("pending".to_string()));
+        write_to_file("./state.json", state);
+        println!("\n\n{} is being set to pending\n\n", title);
+    }
+}
+```
+
+### 导出 trait
+
+文件路径在 `src/todo/structs/traits/mod`
+
+```rust
+pub mod create;
+pub mod delete;
+pub mod edit;
+pub mod get;
+```
+
+## 为 struct 实现 trait
+
+接下来我们为 Pending 和 Done 两个 struct 来实现这几个 trait
+
+### Pending
+
+我们为 Pending 实现所有的 4 个 trait
+
+```rust
+use super::base::Base;
+use super::traits::create::Create;
+use super::traits::delete::Delete;
+use super::traits::edit::Edit;
+use super::traits::get::Get;
+
+pub struct Pending {
+    pub super_struct: Base,
+}
+
+impl Pending {
+    pub fn new(input_title: &str) -> Pending {
+        Pending {
+            super_struct: Base::new(input_title, "pending"),
+        }
+    }
+}
+
+impl Delete for Pending {}
+impl Create for Pending {}
+impl Edit for Pending {}
+impl Get for Pending {}
+```
+
+### Done
+
+为 Done 实现除了 Create 以外的 trait
+
+文件路径在 `src/todo/structs/done`
+
+```rust
+use super::base::Base;
+use super::traits::delete::Delete;
+use super::traits::edit::Edit;
+use super::traits::get::Get;
+
+pub struct Done {
+    pub super_struct: Base,
+}
+
+impl Done {
+    pub fn new(input_title: &str) -> Done {
+        Done {
+            super_struct: Base::new(input_title, "done"),
+        }
+    }
+}
+
+impl Delete for Done {}
+impl Edit for Done {}
+impl Get for Done {}
+```
+
+### 导出 struct
+
+```rust
+mod base;
+pub mod done;
+pub mod pending;
+pub mod traits;
+```
+
+## Process 输入处理
+
+文件位于 `src/process.rs` 路径下
+
+```rust
+use serde_json::{Map, Value};
+
+use crate::todo::{
+    structs::{
+        done::Done,
+        pending::Pending,
+        traits::{create::Create, delete::Delete, edit::Edit, get::Get},
+    },
+    ItemTypes,
+};
+
+// 处理 pending 状态
+fn process_pending(item: Pending, command: String, state: &Map<String, Value>) {
+    let mut state = state.clone();
+    // 根据用户的输入来调用不同的方法
+    match command.as_str() {
+        "get" => item.get(&item.super_struct.title, &state),
+        "create" => item.create(
+            &item.super_struct.title,
+            &item.super_struct.status,
+            &mut state,
+        ),
+        "delete" => item.delete(&item.super_struct.title, &mut state),
+        "edit" => item.set_to_done(&item.super_struct.title, &mut state),
+        _ => println!("command: {} is not supported", command),
+    }
+}
+
+// 处理 done 状态
+fn process_done(item: Done, command: String, state: &Map<String, Value>) {
+    let mut state = state.clone();
+
+    match command.as_str() {
+        "get" => item.get(&item.super_struct.title, &state),
+        "delete" => item.delete(&item.super_struct.title, &mut state),
+        "edit" => item.set_to_pending(&item.super_struct.title, &mut state),
+        _ => println!("command: {} is not supported", command),
+    }
+}
+
+// 处理用户的输入，根据输入来匹配枚举，然后执行不同的操作
+pub fn process_input(item: ItemTypes, command: String, state: &Map<String, Value>) {
+    match item {
+        ItemTypes::Pending(item) => process_pending(item, command, state),
+        ItemTypes::Done(item) => process_done(item, command, state),
+    }
+}
+```
+
+## 最后
+
+按照上面的代码一步一步来完成就可以执行程序了，在根目录下新建一个 `state.json` 文件，写入一个空对象，不然会报错(代码没做处理)
+
+```json
+{}
+```
+
+最后再在控制台上去执行
+
+```bash
+cargo run create shopping
+```
+
+然后就能看到 state.json 中多了一条记录
+
+```json
+{ "shopping": "pending" }
+```
+
+其它的方法就交由你们自己去尝试好了~
