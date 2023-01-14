@@ -2,8 +2,6 @@
 
 - BFF 架构演进
 - RPC 高性能 BFF 实战
-- DDD、GraphQL 实战 BFF
-- Serverless 实战 BFF
 
 ### 微服务
 
@@ -362,7 +360,7 @@ const {
   client: { RpcClient },
   // 创建注册中心，维护服务的注册信息，帮助节点和客户端找到对方
   registry: { ZookeeperRegistry },
-} = require("sofa-rpc-node");
+} = require('sofa-rpc-node');
 const logger = console;
 
 const rpcMiddleware = (options = {}) => {
@@ -372,7 +370,7 @@ const rpcMiddleware = (options = {}) => {
       // 记录日志
       logger,
       // zookeeper 的地址
-      address: "localhost:2181",
+      address: 'localhost:2181',
     });
 
     const client = new RpcClient({
@@ -391,7 +389,7 @@ const rpcMiddleware = (options = {}) => {
       // 等待服务就绪
       await consumer.ready();
 
-      rpcConsumers[interfaceName.split(".").pop()] = consumer;
+      rpcConsumers[interfaceName.split('.').pop()] = consumer;
     }
 
     ctx.rpcConsumers = rpcConsumers;
@@ -404,15 +402,15 @@ module.exports = rpcMiddleware;
 
 #### 缓存中间件
 
-我们先在 `bff/store/index.js` 中写入这些代码，这里主要是创建了3个类
+我们先在 `bff/store/index.js` 中写入这些代码，这里主要是创建了 3 个类
 
 - CacheStore：管理 Store 容器的类，优先使用 LRU 算法调用本地内存缓存，命中不到再去调用 Redis 缓存
 - MemoryStore：本地内存 Store
 - RedisStore：远程 Redis 服务器 Store
 
 ```js
-const LRUCache = require("lru-cache");
-const Redis = require("ioredis");
+const LRUCache = require('lru-cache');
+const Redis = require('ioredis');
 
 // 一般越上层的缓存过期时间就越短
 class CacheStore {
@@ -462,8 +460,8 @@ class MemoryStore {
 class RedisStore {
   constructor(
     options = {
-      host: "localhost",
-      port: "6379",
+      host: 'localhost',
+      port: '6379',
     }
   ) {
     this.client = new Redis(options);
@@ -489,7 +487,7 @@ module.exports = {
 然后在 `bff/middleware/cache.js` 中写入缓存中间件的代码
 
 ```js
-const { RedisStore, CacheStore, MemoryStore } = require("../store");
+const { RedisStore, CacheStore, MemoryStore } = require('../store');
 
 const cacheMiddleware = (options) => {
   return async function (ctx, next) {
@@ -514,11 +512,11 @@ module.exports = cacheMiddleware;
 
 ```js
 // RabbitMQ
-const amqp = require("amqplib");
+const amqp = require('amqplib');
 
 const MQMiddleware = (
   options = {
-    url: "amqp://localhost",
+    url: 'amqp://localhost',
   }
 ) => {
   return async function (ctx, next) {
@@ -527,7 +525,7 @@ const MQMiddleware = (
     // 创建一个通道
     const logger = await mqClient.createChannel();
     // 创建一个名称为 logger 的队列，如果已经存在了，不会重复创建
-    await logger.assertQueue("logger");
+    await logger.assertQueue('logger');
     // 将其挂载到 ctx.channels 中，其它地方就能进行调用了
     ctx.channels = {
       logger,
@@ -565,20 +563,20 @@ module.exports = log = (ctx, data) => {
 `bff/index.js` 补充完整的代码：
 
 ```js
-const Koa = require("koa");
-const router = require("koa-router")();
-const logger = require("koa-logger");
-const cacheMiddleware = require("./middleware/cache");
-const MQMiddleware = require("./middleware/mq");
-const rpcMiddleware = require("./middleware/rpc");
-const log = require("./utils/log");
+const Koa = require('koa');
+const router = require('koa-router')();
+const logger = require('koa-logger');
+const cacheMiddleware = require('./middleware/cache');
+const MQMiddleware = require('./middleware/mq');
+const rpcMiddleware = require('./middleware/rpc');
+const log = require('./utils/log');
 
 const app = new Koa();
 
 app.use(logger());
 app.use(
   rpcMiddleware({
-    interfaceNames: ["com.puffmeow.user"],
+    interfaceNames: ['com.puffmeow.user'],
   })
 );
 app.use(cacheMiddleware());
@@ -586,12 +584,12 @@ app.use(MQMiddleware());
 
 app.use(router.routes()).use(router.allowedMethods());
 
-router.get("/getUserInfo", async (ctx) => {
+router.get('/getUserInfo', async (ctx) => {
   const username = ctx.query.username;
-    
+
   const cacheKey = `${ctx.method}-${ctx.path}-${username}`;
   let cacheData = await ctx.cache.get(cacheKey);
-    
+
   // 把用户信息写入文件进行持久化，通过 Buffer 二进制发送
   log(ctx, {
     username,
@@ -601,24 +599,24 @@ router.get("/getUserInfo", async (ctx) => {
     ctx.body = cacheData;
     return;
   }
-    
+
   const {
     rpcConsumers: { user },
   } = ctx;
-    
-  const userInfo = await user.invoke("getUserInfo", [username]);
+
+  const userInfo = await user.invoke('getUserInfo', [username]);
 
   cacheData = {
     userInfo,
   };
-    
+
   await ctx.cache.set(cacheKey, cacheData);
 
   ctx.body = cacheData;
 });
 
 // 插入一条 user 数据
-router.get("/createUser", async (ctx) => {
+router.get('/createUser', async (ctx) => {
   const username = ctx.query.username;
   log(ctx, {
     username,
@@ -627,13 +625,13 @@ router.get("/createUser", async (ctx) => {
   const {
     rpcConsumers: { user },
   } = ctx;
-  const res = await user.invoke("createUser", [username]);
+  const res = await user.invoke('createUser', [username]);
 
   ctx.body = res;
 });
 
 app.listen(3000, () => {
-  console.log("启动成功");
+  console.log('启动成功');
 });
 ```
 
