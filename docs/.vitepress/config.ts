@@ -31,6 +31,10 @@ export default {
       message: '每天进步一丢丢',
       copyright: 'Copyright © 2023 PuffMeow',
     },
+    docFooter: {
+      prev: '👈瞧瞧上一篇',
+      next: '瞅瞅下一篇👉',
+    },
     logo: 'https://i.niupic.com/images/2023/01/06/aeYt.png',
     socialLinks: [
       {
