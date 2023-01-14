@@ -15,6 +15,18 @@ export default {
         type: 'image/x-icon',
       },
     ],
+    [
+      'script',
+      {},
+      `var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?4acff6ef41814431b9fd47af4b091072";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    `,
+    ],
   ],
   markdown: {
     lineNumbers: true,

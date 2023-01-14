@@ -17,7 +17,9 @@ export default {
     ctx.app.component('Test', Test);
 
     ctx.router.onAfterRouteChanged = (to: string) => {
-      ((window as any)?._hmt).push(['_trackPageview', to]);
+      if ((window as any)?._hmt) {
+        (window as any)._hmt.push(['_trackPageview', to]);
+      }
     };
   },
 };
