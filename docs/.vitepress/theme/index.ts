@@ -17,7 +17,11 @@ export default {
     ctx.app.component('Test', Test);
 
     ctx.router.onAfterRouteChanged = (to: string) => {
-      if (typeof window !== 'undefined') {
+      // 不记录本地的埋点数据
+      if (
+        typeof window !== 'undefined' &&
+        !location.host.includes('localhost')
+      ) {
         (window as any)?._hmt &&
           (window as any)?._hmt.push(['_trackPageview', to]);
       }
