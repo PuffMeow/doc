@@ -21,7 +21,7 @@
 
 BFF 是 Backend for Frontend 的缩写，指的是专门为前端应用设计的后端服务 主要用来为各个端提供代理数据聚合、裁剪、适配和鉴权服务，方便各个端接入后端服务 BFF 可以把前端和微服务进行解耦，各自可以独立演进
 
-<img src="./img/bff/1.png" />
+![1](https://cdn.jsdelivr.net/gh/PuffMeow/PictureSave/doc/1.png)
 
 ### 网关
 
@@ -30,7 +30,7 @@ BFF 是 Backend for Frontend 的缩写，指的是专门为前端应用设计的
   证，缓存，数据转换，压缩、流量控制、限流熔断、防爬虫等）
 - 网关和 BFF 可能合二为一
 
-<img src="./img/bff/2.png" />
+![2](https://cdn.jsdelivr.net/gh/PuffMeow/PictureSave/doc/2.png)
 
 ### 集群化
 
@@ -42,7 +42,8 @@ BFF 是 Backend for Frontend 的缩写，指的是专门为前端应用设计的
 - 可扩展性差：单点服务器的扩展能力有限，如果想要提升计算能力，就必须改造或者替换现有
   的服务器
   这些问题可以通过采用服务器集群的方式来解决
-  <img src="./img/bff/3.png" />
+
+![3](https://cdn.jsdelivr.net/gh/PuffMeow/PictureSave/doc/3.png)
 
 ### RPC
 
