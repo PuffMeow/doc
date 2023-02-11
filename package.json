@@ -20,7 +20,7 @@
     "eslint-plugin-vue": "^9.8.0",
     "fs-extra": "^11.1.0",
     "prettier": "2.8.2",
-    "vitepress": "^1.0.0-alpha.35",
+    "vitepress": "^1.0.0-alpha.45",
     "vue": "^3.2.45"
   },
   "dependencies": {
