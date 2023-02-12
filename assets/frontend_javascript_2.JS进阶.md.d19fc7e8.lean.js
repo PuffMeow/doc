@@ -1,0 +1,1 @@
+import{_ as t,c as e,o as a}from"./app.5bb0ff4a.js";const f=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"frontend/javascript/2.JS进阶.md","lastUpdated":1673171268000}'),r={name:"frontend/javascript/2.JS进阶.md"};function n(o,s,c,_,p,d){return a(),e("div")}const m=t(r,[["render",n]]);export{f as __pageData,m as default};
