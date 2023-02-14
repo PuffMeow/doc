@@ -1,6 +1,9 @@
 import fs from 'fs-extra';
 import path from 'path';
 
+const fileWithNumSortReg = /[0-9]+.\w*/;
+
+/** 获取根目录的 docs 文件夹下的所有路径 */
 function getDirsPathInRoot(rootDirName: string) {
   return fs
     .readdirSync(rootDirName)
@@ -18,6 +21,16 @@ function getItemsPath(rootDirPath: string, rootDirName: string) {
   const items = fs
     .readdirSync(rootDirPath)
     .filter((path) => path.endsWith('.md'))
+    .sort((a, b) => {
+      // 根据文件名前缀的数据来排序
+      let aNum = 0;
+      let bNum = 0;
+      if (fileWithNumSortReg.test(a) && fileWithNumSortReg.test(b)) {
+        aNum = Number(a.split('.')[0]);
+        bNum = Number(b.split('.')[0]);
+      }
+      return aNum - bNum;
+    })
     .map((dir) => {
       const dirPath = path.resolve(rootDirPath, dir);
 
