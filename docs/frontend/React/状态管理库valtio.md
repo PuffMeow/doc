@@ -4,7 +4,7 @@
 
 > Valtio makes proxy-state simple for React and Vanilla
 
-就是让数据状态代理在 React 和原生 JS (Vanilla) 中变得更加简单的一个状态管理库，有点类似于 Mobx 的理念，使用状态代理去驱动 React 视图来更新。Valtio（用粤语来念就是“我丢”） 是一个很轻量级的响应式状态管理库。
+就是让数据管理在 React 和原生 JS (Vanilla) 中变得更加简单的一个库，它类似于 Vue 的数据驱动视图的理念，使用外部状态代理去驱动 React 视图来更新。总的来说，Valtio（用粤语来念就是“我丢”） 是一个很轻量级的响应式状态管理库。
 
 ## 2.主要作者是谁？
 
@@ -12,11 +12,11 @@
 
 上面提到的几个库本质上代表了3个流派：
 
-dispatch 流派(单向数据流)：redux、zustand、dva等
+dispatch 流派(单向数据流-中心化管理)：redux、zustand、dva等
 
-原子状态流派：recoil、jotai等
+响应式流派(中心化管理)：mobx、valtio等
 
-响应式流派：mobx、valtio等
+原子状态流派(原子组件化管理)：recoil、jotai等
 
 下面我们来举几个关于上面提到的 zustand、jotai 、valtio 的基本使用例子，对这几个库有个整体的感知，以计时器为例：
 
@@ -85,11 +85,11 @@ function Counter() {
 }
 ```
 
-用三个简单的计时器例子看完了它们三者之间的大概区别。
+用三个简单的计时器例子看完了它们三者之间的代码风格差异。
 
 关于如何选择完全是要看个人风格喜好了，我个人的话更喜欢响应式风格的，因为我以前写过一年的Vue，而且 Mobx 我也在之前项目中用过很长的一段时间了，所以 Valtio 就觉得很亲切。但是响应式风格和 React 的单向数据流理念有点违背，所以用户没有 dispatch 流派用的人那么多(从⭐ 的数量就能看出来)。
 
-我们今天这里的主角是 Valtio，下面我们会从一些基本 API 到原理具体去说一下 Valtio ，最后再看看它和类似的竞品 Mobx 之间的主要区别。
+我们今天这里的主角是 Valtio，下面我们会从一些基本 API 到原理具体去说一下 Valtio 
 
 ## 3.基础：如何使用
 
@@ -554,13 +554,13 @@ import { createProxy, isChanged } from 'proxy-compare';
 
 // 声明原始对象
 const obj = { a: "1", b: "2" };
-// 创建一个用于记录被访问属性的 WeakMap，依赖收集
+// 创建一个用于记录被访问属性的 WeakMap，提供给库的内部用于依赖收集
 const affected = new WeakMap();
 
-// 创建一个 obj 的代理，使用 affected 收集依赖
+// 创建一个 obj 的代理，提供 affected 给内部收集依赖
 const proxy = createProxy(obj, affected);
 
-// 触发 Proxy.get 事件，affected 收集 a 属性
+// 触发 Proxy.get 事件，内部的 affected 会收集 a 属性
 proxy.a
 
 // 判断 a 属性是否有发生变更，返回 false
@@ -582,6 +582,82 @@ isChanged(obj, { a: "2", b: "20" }, affected) // false
 
 #### createProxy 的过程
 
+![image-20230221232524208](https://cdn.jsdelivr.net/gh/PuffMeow/PictureSave/doc/image-20230221232524208.png)
 
+`proxy.a` 访问调用完成后最后在内部会生成类似这样的数据结构：
 
-## 5.和 Mobx 的对比
+```js
+{
+  “AFFECTED_PROPERTY”: WeakMap { "a:1,b:2": { "KEY_PROPERTY": Set["a"] } }
+}
+```
+
+为什么要用 WeakMap ，是因为 WeakMap 的键值对所引用的对象都是弱引用，会在没有其它引用的时候释放掉内存(对应的key会变为无效)， 以此来节省内存。 KEYS_PROPERTY 引用的 Set 集合是用来收集依赖的，它可以去重，防止重复收集依赖。
+
+另外，如果是对象嵌套着对象的情况，createProxy 内部不会一开始就去代理所有的嵌套对象，而是在调用的时候才去进行代理，从而可以节省性能开销。大概的代码类似于这样：
+
+```js
+// Proxy 的 handler.get 方法， proxy.a 的时候会调用
+const handler = {
+  get(target, key) {
+    // 记录当前访问的属性值的使用情况
+    recordUsage(KEYS_PROPERTY, key);
+    // createProxy 内部判断到是原始值时就直接返回，是对象就再次代理创建代理
+    return createProxy(
+      Reflect.get(target, key),
+      state[AFFECTED_PROPERTY] as Affected,
+      state[PROXY_CACHE_PROPERTY],
+    );
+  }
+}
+```
+
+#### isChanged 比较过程
+
+我们上面说到，访问了 proxy.a 的时候，内部就会收集到这个 a 依赖，当我们调用 `isChanged(obj, { a: "1" }, affected)` 的时候，就会去进行判断 obj 原始对象和提供的对比对象里的 a 属性是否有发生变化，精简过后的主要代码是这样子的：
+
+```js
+export const isChanged = (
+  prevObj,
+  nextObj,
+  affected,
+): boolean => {
+  // 比较是否是同一个值，是同一个值说明没发生变化，返回 false
+  if (Object.is(prevObj, nextObj)) {
+    return false;
+  }
+
+  // 如果传入的两个值任意一个不是对象，那就直接返回 true 说明发生了变化
+  if (!isObject(prevObj) || !isObject(nextObj)) return true;
+
+  // 从我们收集的依赖里去看看是否有被访问过的属性
+  const used = affected.get(prevObj);
+  // 没有收集过依赖，说明这两个对象已经不是同一个对象了，不进行比较了，直接返回true
+  // 比如 {a:"1"} 和 {a:"1"} 这俩不是同一个对象(地址不一样)
+  if (!used) return true;
+
+  // 最后再来判断有收集依赖的情况，当我们访问了 proxy.a，就会走到这里
+  let changed = null;
+    
+  // 遍历收集到依赖的 Set 集合，对比两个对象中以该依赖性为key的值
+  for (const key of used[KEYS_PROPERTY] || []) {
+    // 如果是原始值比如 isChanged("1", "1") ，最后就会返回 true
+    // 如果是嵌套对象或数组，那么就会去递归调用
+    changed = isChanged(prevObj[key], nextObj[key], affected);
+    // 当遍历到任意一个前后对象不同的值，就直接返回true，说明该依赖项的值发生了变化
+    if (changed) return changed;
+  }
+
+  // 当遍历完了所有的依赖，并且没提前返回就会走到这里
+  // 如果一个依赖都没收集，上面就没遍历，此时的 changed 还是 null，说明对比的两个对象之间的地址肯定是不一样的，说明发生了变化
+  if (changed === null) changed = true;
+  // 如果 changed 遍历完了为 false，最后说明访问的依赖都没发生变化
+  return changed;
+};
+```
+
+这里就是一整串的完整的对比 Proxy 是否发生变更的一个流程了，当然库的内部不止这么简单，另外还有很多的缓存处理以及 Proxy Handler 的 has、getOwnPropertyDescriptor、ownKeys 的依赖收集。但是我们最核心的还是 Handler 的 get 方法，这是访问数据时就会进行的依赖收集手段。
+
+### 小结
+
+那么我们了解完上面这两个库的作用和原理之后，我们其实就已经大概的能够知道 useSnapshot 的工作原理了
