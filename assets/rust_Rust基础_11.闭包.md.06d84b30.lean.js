@@ -1,1 +1,0 @@
-import{_ as t,c as e,o as a}from"./app.0883844a.js";const m=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"rust/Rust基础/11.闭包.md","lastUpdated":1676305035000}'),s={name:"rust/Rust基础/11.闭包.md"};function r(o,c,n,_,p,d){return a(),e("div")}const u=t(s,[["render",r]]);export{m as __pageData,u as default};
