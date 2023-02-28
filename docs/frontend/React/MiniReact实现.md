@@ -571,7 +571,7 @@ requestIdleCallback(workLoop);
 
 ### 保存当前渲染的 fiber 树
 
-在完成 commit 之后，需要对 ”最后一次 commit 到 DOM 的一棵 Fiber 树“ 的引用进行保存。我们称它为 `currentRoot` 。同时我们也对每个 Fiber 添加了一个 `alternate` 属性。这个属性是对旧 Fiber 的链接，这个旧 Fiber 是我们在在上一个 commit 阶段向 DOM commit 的 Fiber
+在完成 commit 之后，需要对 ”最后一次 commit 到 DOM 的一棵 Fiber 树“ 的引用进行保存。我们称它为 `currentRoot` 。同时我们也对每个 Fiber 添加了一个 `alternate` 属性。这个属性是对旧 Fiber 的链接，这个旧 Fiber 是我们在上一个 commit 阶段向 DOM commit 的 Fiber
 
 ### Reconcile
 
