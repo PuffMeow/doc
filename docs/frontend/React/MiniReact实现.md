@@ -969,10 +969,10 @@ const MiniReact = {
 
 我们并没有把所有 React 的功能和优化点包含进来。例如：
 
-- 在 Didact 中，我们在 render 阶段遍历整棵树，而 React 会根据一些标记来跳过一些没有发生变化的子树。
+- 在 MiniReact 中，我们在 render 阶段遍历整棵树，而 React 会根据一些标记来跳过一些没有发生变化的子树。
 
 - 我们还在 commit 阶段遍历整棵树。React 仅保留有影响的 Fiber 链接列表，并且也仅只访问这些 Fiber。
 
 - 每当我们构建一个新的 WIP Tree 时，我们会为每个 Fiber 创建新的对象。而 React 会从旧的 Fiber Tree 中回收 Fiber。
 
-- 当 Didact 在 render 阶段收到新的更新时，它会丢弃 WIP Tree 中的工作，并重新从根节点开始。而 React 使用有效期时间戳来标记每次更新，并用它来决定哪个更新具有更高的优先级。
+- 当 MiniReact 在 render 阶段收到新的更新时，它会丢弃 WIP Tree 中的工作，并重新从根节点开始。而 React 使用有效期时间戳来标记每次更新，并用它来决定哪个更新具有更高的优先级。
