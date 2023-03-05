@@ -8,7 +8,7 @@
 
 ## 2.主要作者是谁？
 
-主要作者叫做 [Daishi Kato](https://github.com/dai-shi)（带师？是你吗？）他是日本东京人，是个全职开源作者。戳多马蝶，这货居然还写了好几个状态管理库，分别是 [Jotai 12.1k⭐](https://github.com/pmndrs/jotai)、 [Zustand 27.4k⭐](https://github.com/pmndrs/zustand)、[Valtio 6.3k⭐](https://github.com/pmndrs/valtio) ，这三个状态管理库都是这货主要开发的，而且用的人还挺多的。其中 Jotai 和 Recoil 类似， Zustand 和 Redux 类似，Valtio 和 Mobx 类似，它们的名字分别是日语、 德语、芬兰语 中的 “状态”，这几个库和之前一些老牌的库比上手要更简单，而且使用起来更简洁，并且主打轻量级。
+主要作者叫做 [Daishi Kato](https://github.com/dai-shi)（带师？是你吗？）他是日本东京人，是个全职开源作者。戳多马蝶，这货居然还写了好几个状态管理库，分别是 [Jotai 12.1k⭐](https://github.com/pmndrs/jotai)、 [Zustand 28k⭐](https://github.com/pmndrs/zustand)、[Valtio 6.3k⭐](https://github.com/pmndrs/valtio) ，这三个状态管理库都是这货主要开发的，而且用的人还挺多的。其中 Jotai 和 Recoil 类似， Zustand 和 Redux 类似，Valtio 和 Mobx 类似，它们的名字分别是日语、 德语、芬兰语 中的 “状态”，这几个库和之前一些老牌的库比上手要更简单，而且使用起来更简洁，并且主打轻量级。
 
 上面提到的几个库本质上代表了3个流派：
 
