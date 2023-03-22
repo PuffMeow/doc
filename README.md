@@ -13,11 +13,11 @@ git clone https://github.com/PuffMeow/doc.git
 # run
 
 ```
-yarn dev
+pnpm start
 ```
 
 # build
 
 ```
-yarn build
+pnpm build
 ```
