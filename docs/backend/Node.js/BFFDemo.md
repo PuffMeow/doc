@@ -1,7 +1,12 @@
-## 大纲
+## 前言
+
+本篇文章简要介绍了 Node.js BFF 架构和实战，可以让你在日常开发中构建一个 Node.js 微服务开发基础架构。
+本篇文章同时也收录在公众号《泡芙学前端》，持续更新前端学习知识
+
+## 文章的主要内容
 
 - BFF 架构演进
-- RPC 高性能 BFF 实战
+- BFF 实战
 
 ### 微服务
 
@@ -87,7 +92,7 @@ RabbitMQ 是一个消息代理，它可以用来在消息生产者和消息消�
 
 ### Docker 容器安装
 
-先在本地安装好 Docker(怎么安装就不介绍了)，这里使用 Windows 系统，先在命令行执行下面命令，安装好我们需要使用到的镜像
+先在本地安装好 Docker(怎么安装就不介绍了，我之前写的文章里也有)，这里使用 Windows 系统，先在命令行执行下面命令，安装好我们需要使用到的镜像
 
 ```
 docker pull mysql
@@ -115,7 +120,7 @@ docker run -d --hostname localhost --name myrabbit -p 5672:5672 rabbitmq
 
 这里我们是做最简单的一个学习目的，不作为生产使用，所以怎么操作简单就怎么来
 
-数据库工具我们使用 `Navicat Premium`，我们先在 Navicat 中连接上 Docker 中启动的数据库，然后创建一个 bff 数据库，接下来在 Navicat 中执行这个命令创建一个简单的 user 表用于测试
+数据库工具我们使用 `Navicat Premium`，我们先在 Navicat 中连接上 Docker 中启动的数据库，然后创建一个 BFF 数据库，接下来在 Navicat 中执行这个命令创建一个简单的 user 表用于测试
 
 ```sql
 create table user (id varchar(64) comment '编号',username varchar(20) comment '用户名',phone varchar(15) comment '手机号码') comment '用户表'
@@ -174,7 +179,7 @@ create table user (id varchar(64) comment '编号',username varchar(20) comment 
 }
 ```
 
-在 user 中再新建一个 index.js 文件，写入如下代码，主要是在函数中连接数据库，然后创建 zookeeper 注册中心，创建微服务服务器，将其中的函数注册到 zookeeper 中，用于给外部进行调用，我们这里主要注册两个函数
+在 user 中再新建一个 index.js 文件，写入如下代码，主要是在函数中连接数据库，然后创建 Zookeeper 注册中心，创建微服务服务器，将其中的函数注册到 Zookeeper 中，用于给外部进行调用，我们这里主要注册两个函数
 
 - 创建用户
 - 获取用户信息
@@ -655,4 +660,8 @@ http://localhost:3000/getUserInfo?username=test
 - 安全风险：如果 BFF 层未得到正确保护，可能会导致安全风险，因为它可能会暴露敏感数据 维护成本：BFF 层需要维护和更新，这会增加维护成本
 - 测试复杂性：由于 BFF 层需要在后端 API 和前端应用程序之间进行测试，因此测试可能会变得更加 复杂 运维问题 要求有强大的日志、服务器监控、性能监控、负载均衡、备份冗灾、监控报警和弹性伸缩 扩容等
 
-但是上述的问题可以使用 Serverless 来进行解决，特别是针对前端来说
+但是上述的问题可以使用 Serverless 来进行解决，特别是对于运维能力不太强的前端来说，如果要开发一个完整的全栈应用，使用 Serverless 是比较好的选择，小程序的云开发其实就是 Serverless，阿里云同时也提供了 Serverless 按量或者按月计费的服务。
+
+## 最后
+
+本篇文章也同时收录在公众号《泡芙学前端》，持续更新前端学习内容~
