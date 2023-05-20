@@ -8,7 +8,7 @@ Deno 对比 Node.js 有哪些特点？
 
 - Deno 原生内置了 TS 支持、lint/benchmark/格式化/测试/文档 等工具、默认零配置可开箱即用、标准 Web API 的支持
 - 原生内置通过 URL 来加载模块（Node.js 于 17.6 版本也开启了实验性的支持）
-- 安全，访问本地文件/网络/调用 FFI 等操作需要授权，不会像 Node.js 在 NPM 包中就能直接写入文件到用户本地
+- 安全，访问本地文件/网络/调用 FFI 等操作需要授权(Node.js 20 也支持这个特性了)
 
 还有一个要说的点，现在 Deno 也开始兼容 NPM 了，也可以使用 package.json 和安装 node_modules，但是这是可选的，这看似有点违背了 Deno 一开始设计的初衷，但是如果不这样做，就意味着丢掉了 NPM 庞大的生态体系，导致用户量会一直上不来，这也有 [一篇文章讲了为什么 Deno 要支持 NPM](https://deno.com/blog/package-json-support)，目前 Deno 的网络引入模块功能还有一些缺陷，比如会导致重复依赖引入，但是这已经在 Deno 官方的解决清单里了，未来版本会解决。
 
@@ -90,15 +90,18 @@ async fn run_subcommand(flags: Flags) -> Result<i32, AnyError> {
 }
 ```
 
-继续往里面去看
+继续往里面去看，可以看到这个函数是运行 JS 文件的地方，主要是先创建一个全局的状态管理对象，然后拿到 JS 的主入口模块，检测运行的权限，然后创建一个执行的 Worker，最后再运行起来
 
 ```rust
 /// 运行指定的 js 文件
 pub async fn run_script(flags: Flags) -> Result<i32, AnyError> {
-  // 存储一个 deno 实例的状态，它的状态会被所有已经创建的 worker 共享，具有内部可变性
+  // ProcState 存储一个 deno 实例的状态，它的状态会被所有已经创建的 worker 共享
+  // 内部存储了 deno 中会用到的二进制数据，可以跨线程传递数据的广播通道生产者和 sharedArrayBuffer
+  // WASM 依赖信息，网络缓存、网络请求客户端，分析和翻译 node.js 代码，npm 的兼容和解析处理， 处理 TS 配置和类型检查，
+  // 构建模块的依赖关系，处理模块以及预加载需要的数据等操作
   let ps = ProcState::from_flags(flags).await?;
 
-  // 主入口模块
+  // 主入口模块，解析后返回一个 URL ，有多种解析模式，命令行标准输入、npm、远程、本地文件等
   let main_module = ps.options.resolve_main_module()?;
 
   // 获取运行的权限，具有内部可变性，可以跨线程，比如可以传递到 Web Worker
@@ -106,11 +109,30 @@ pub async fn run_script(flags: Flags) -> Result<i32, AnyError> {
     &ps.options.permissions_options(),
   )?);
     
-  // 创建一个运行 js 程序的 worker
+  // 创建一个运行 js 程序的 worker，把主入口模块和权限往里传
   let mut worker = create_main_worker(&ps, main_module, permissions).await?;
 
   let exit_code = worker.run().await?;
   Ok(exit_code)
+}
+```
+
+接下来我们再来看下 `create_main_worker` 这个函数，里面创建用于 JS 运行起来的工作者线程
+
+```rust
+pub async fn create_main_worker(
+  &self,
+  main_module: ModuleSpecifier,
+  permissions: PermissionsContainer,
+) -> Result<CliMainWorker, AnyError> {
+  self
+    .create_custom_worker(
+      main_module,
+      permissions,
+      vec![],
+      Default::default(),
+    )
+    .await
 }
 ```
 

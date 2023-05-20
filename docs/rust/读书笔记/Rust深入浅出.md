@@ -162,3 +162,37 @@ fn main() {
 ```rust
 type I = i32
 ```
+
+## 循环
+
+```RUST
+std：：ops：：RangeFrom 代表只有起始没有结束的范围，语法为
+start..，含义是 [start，+∞）；
+```
+
+```RUST
+std：：ops：：RangeTo代表没有起始只有结束的范围，语法
+为..end，对有符号数的含义是（-∞，end），对无符号数的含义是[0，end）；
+```
+
+```RUST
+std：：ops：：RangeFull代表没有上下限制的范围，语法为..，对
+有符号数的含义是（-∞，+∞），对无符号数的含义是[0，+∞）。
+```
+
+```RUST
+std：：ops：：RangeInclusive，语法为start..=end，含义是[start，
+end]
+```
+
+```RUST
+std：：ops：：RangeToInclusive，语法为..=end，对有符号数的含
+义是（-∞，end]，对无符号数的含义是[0，end]
+```
+
+左闭右开： ..
+左闭右闭: ..=
+
+```rust
+for i in 1..10 {}
+```
