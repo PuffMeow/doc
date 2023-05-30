@@ -319,10 +319,10 @@ import { useProxy, proxy } from "valtio/utils";
 
 const store = proxy({
     userInfo: {},
-    // [{ name: "" }]
     list: []
 })
 
+// 定义一个取数据的 hooks
 export default useStore = () => useProxy(store);
 
 // src/components/List 组件
@@ -347,6 +347,10 @@ export function List() {
 ```
 
 useProxy 其实就是对取 useSnapshot() 或 store 数据的封装，这个 hook 也很简单，就是判断是渲染期间(渲染体内)就返回 useSnapshot() 的快照数据，非渲染期间(非渲染体内)就返回原始的 store 数据，和我们自己手写的是差不多的，只不过这个 hook 帮我们把这个过程封装了起来。
+
+## 小结
+
+以上就是关于 Valtio 库的基本使用了，目前在公司内部我也有项目在用，总的来说，小项目使用起来还是挺方便的，但是大型项目的话如果稍微用不好那可能就会掉坑里去，使用起来的感受和 Vue 也比较像。
 
 ## 4.原理：深入剖析
 
