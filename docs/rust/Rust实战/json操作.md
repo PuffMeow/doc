@@ -288,7 +288,7 @@ JsonSchema {
 
 后面我们以一个前端最常见的 json 文件 package.json 为例，讲解一下如何操作 json 数据
 
-### 解析 package.json
+## 解析 package.json
 
 在项目根目录下我们新建一个 package.json 文件，写入下面的内容
 
@@ -306,36 +306,139 @@ JsonSchema {
 }
 ```
 
-首先我们编写一个 Rust 结构体
+然后在 main.rs 中对它进行解析~
+接下来我们就来说下如何对 json 数据进行增删改查。这个步骤在 Node.js 中实现十分简单，但是在 Rust 中怎么去实现捏？
 
 ```rust
-/// 我们派生序列化和反序列化，一会需要使用到
-#[derive(Debug, Serialize, Deserialize)]
-pub struct Package {
-    pub name: Option<String>,
-    pub version: Option<String>,
-    pub description: Option<String>,
-    pub author: Option<String>,
-    #[serde(rename(deserialize = "devDependencies"))]
-    pub dev_dependencies: Option<IndexMap<String, String>>,
-    pub dependencies: Option<IndexMap<String, String>>,
-}
-```
+use serde_json::{Map, Value};
+use std::fs;
 
-然后在 main.rs 中对它进行解析~，打印出的数据结构我就不贴出来了，大家自行和上面的对照脑补。
-接下来我们就来说下如何对 json 数据进行增删改查。这个步骤在我们的 Node.js 中十分简单，但是在 Rust 中怎么去实现捏?
-
-```rust
 fn main() {
     let example_json = fs::read_to_string("package.json").unwrap();
-    let parsed_json = parse_json::<Package>(&example_json).unwrap();
+    let mut json_value: Map<String, Value> = serde_json::from_str(package_json.as_str()).unwrap();
 
-    println!("{:#?}", &parsed_json);
+    println!("{:#?}", &json_value);
 }
 ```
+
+上面的代码打印出来的结构是这样的，符合定义的 serde_json::Map<String, serde_json::Value>类型：
+
+```rust
+{
+    "dependencies": Object {},
+    "description": String("Testing"),
+    "devDependencies": Object {
+        "typescript": String("^5.0.2"),
+        "vite": String("^4.4.7"),
+        "vitest": String("^0.33.0"),
+    },
+    "name": String("puffmeow"),
+    "version": String("0.1.0"),
+}
+```
+
+下面我们就来看下如何在 Rust 中实现对 json 的增删改查
 
 ### 对 package.json 进行增删改查
 
-#### 增加数据
+```rust
+fn main() {
+    let package_json = fs::read_to_string("package.json").unwrap();
+    let mut json_value: Map<String, Value> = serde_json::from_str(package_json.as_str()).unwrap();
 
-我们上面定义了 author 字段，但是 package.json 中并没有，那么接下来我们想要去写入 author 该如何操作？
+    println!("{:#?}", &json_value);
+
+    // 新增字段
+    json_value.insert("author".to_string(), Value::from("Puffmeow"));
+
+    // 往 devDependencies 中新增字段
+    if let Some(dev_dependencies) = json_value
+        .get_mut("devDependencies")
+        .unwrap()
+        .as_object_mut()
+    {
+        // dev_dependencies 中新增 axios 0.2.0 版本
+        dev_dependencies.insert("axios".to_string(), json!("0.2.0"));
+
+        // 修改 devDependencies 中的 vitest 版本号到 0.34.1
+        dev_dependencies
+            .insert("vitest".to_string(), Value::from("0.34.1"))
+            .unwrap();
+
+        // 删除 devDependencies 中的 typescript 字段
+        dev_dependencies.remove("typescript");
+    }
+
+    // 修改字段，除了使用 Map::get_mut 的方式去修改之外也可以用这种方式进行修改
+    json_value["version"] = json!("0.2.0");
+
+    // 删除 description 字段
+    json_value.remove("description");
+
+    // 查询某个字段
+    let version = json_value.get("version").unwrap();
+    // 打印 0.2.0
+    println!("{}", version);
+
+    // 将更新后的 json 结构体重新转换回 json 字符串并写入到文件中
+    let updated_json = serde_json::to_string_pretty(&json_value).unwrap();
+    fs::write("package.json", &updated_json).unwrap();
+}
+```
+
+最后更新后的字符串就是这样了
+
+```json
+{
+  "author": "Puffmeow",
+  "dependencies": {},
+  "devDependencies": {
+    "axios": "0.2.0",
+    "vite": "^4.4.7",
+    "vitest": "0.34.1"
+  },
+  "name": "puffmeow",
+  "version": "0.2.0"
+}
+```
+
+但这时候有些人就会说，顺序怎么乱了？
+
+这是因为 Map 默认使用的是 BtreeMap，它对插入顺序不保证，如果想要让插入顺序得到排序，那可以开启特性
+
+修改 Cargo.toml
+
+```toml
+[dependencies]
+# 这里新增 preserve_order 特性
+serde_json = {version = "1.0.104", features = ["preserve_order"]}
+```
+
+这时候我们重新跑一下，可以看到得到了正确的顺序~
+
+```json
+{
+  "name": "puffmeow",
+  "version": "0.2.0",
+  "author": "Puffmeow",
+  "devDependencies": {
+    "axios": "0.2.0",
+    "vite": "^4.4.7",
+    "vitest": "0.34.1"
+  },
+  "dependencies": {}
+}
+```
+
+## 总结
+
+以上就是使用 Rust 对 Json 操作的一些基础内容了~ 之前自己在学习的过程中对于插入顺序的保证也疑惑了挺久的，最后通过到 Rust 社区上提问了一下解决了问题（社区上的人还是挺友好的），特别是 indexmap 这个知识点，如果 serde_json 开启了 preser_order 特性，其内部也会将 Map 给转换成 indexmap 来保证插入顺序，对应的代码是这样的
+
+```rust
+#[cfg(not(feature = "preserve_order"))]
+type MapImpl<K, V> = BTreeMap<K, V>;
+#[cfg(feature = "preserve_order")]
+type MapImpl<K, V> = IndexMap<K, V>;
+```
+
+以后遇到一些数据量大的场景，使用 Rust 来进行操作，速度会比 Node.js 快至少 1 倍 ，同时也可以用 Rust 来给 Node.js 来做 Native addon 来提高 Node.js 的性能， Rust 可以为 Node.js 打开一扇大门，让 Node.js 本身就羸弱的计算性能得到大幅度提升。
