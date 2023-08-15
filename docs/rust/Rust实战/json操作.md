@@ -1,16 +1,14 @@
 ## 知识点
 
-这篇文章会以解析一个 JsonSchema 和对 package.json 文件进行增删改查为例，带你去了解如何使用 Rust 去操作一个 json 字符串。
+> 在前端和服务端开发中，我们会经常去操作 json，使用 Rust 操作 json 的性能相当的高(系统级编程语言不是吃素的)，所以本章我们就来聊聊如何使用 Rust 操作 json，后续文章我们再来继续说说如何集成到 Node.js 中，让 Node.js 的性能起飞。
 
-涉及的知识点：
+这篇文章会以解析一个 JsonSchema 和对 package.json 文件进行增删改查为例，带你去了解如何使用 Rust 去操作 json 字符串，这两个东西在前端开发中都很常见。
 
-- Rust struct 结构体
-- 文件操作
-- 对 json 的解析和增删改查
+> JsonSchema 是一种描述 Json 数据结构的规范，常用于前端低代码领域，比如由 JsonSchema 快速生成表单/自定义组件等。详情可以去了解下 formily 这个库。
 
-## 需要去解析的 JsonSchema
+## 要解析的 JsonSchema
 
-这里以一个比较简单并且典型的 JsonSchema 为例子，接下来我们就用 serde_json 来解析一下。
+我在阿里的日常开发中，经常需要去用到 JsonSchema 结构，所以这里我就以一个比较简单并且典型的 JsonSchema 为例子，去用 serde_json 这个 Rust Json 序列化和反序列化的库来解析一下：
 
 ```json
 {
@@ -290,7 +288,7 @@ JsonSchema {
 
 ## 解析 package.json
 
-在项目根目录下我们新建一个 package.json 文件，写入下面的内容
+在前端的一些工具中，经常会需要去重写 package.json 中的内容，比如添加依赖，删除依赖，修改版本号等。我们在项目根目录下我们新建一个 package.json 文件，写入下面的内容
 
 ```json
 {
@@ -404,7 +402,7 @@ fn main() {
 
 但这时候有些人就会说，顺序怎么乱了？
 
-这是因为 Map 默认使用的是 BtreeMap，它对插入顺序不保证，如果想要让插入顺序得到排序，那可以开启特性
+这是因为 Map 默认使用的是 BtreeMap，它对插入顺序不保证，如果想要让插入顺序得到排序，那可以开启 `preserve_order` 特性
 
 修改 Cargo.toml
 
@@ -441,4 +439,4 @@ type MapImpl<K, V> = BTreeMap<K, V>;
 type MapImpl<K, V> = IndexMap<K, V>;
 ```
 
-以后遇到一些数据量大的场景，使用 Rust 来进行操作，速度会比 Node.js 快至少 1 倍 ，同时也可以用 Rust 来给 Node.js 来做 Native addon 来提高 Node.js 的性能， Rust 可以为 Node.js 打开一扇大门，让 Node.js 本身就羸弱的计算性能得到大幅度提升。
+以后遇到一些数据量大的涉及到操作 json 的场景，使用 Rust 来速度会比 Node.js 快至少 1 倍 ，同时也可以用 Rust 来给 Node.js 来做 Native addon 来提高 Node.js 的性能， Rust 可以为 Node.js 打开一扇大门，让 Node.js 本身就羸弱的计算性能得到大幅度提升。

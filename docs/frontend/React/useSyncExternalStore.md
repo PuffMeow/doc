@@ -1,8 +1,10 @@
 ### useSyncExternalStore
 
-> 这是个啥玩意？这是 React18 提供的一个可以订阅组件外部数据的 hooks，React 官方建议这个 hooks 应该给库的开发者使用，不建议应用开发者直接去进行使用
+> 这是个啥玩意？这是 React18 提供的一个可以订阅组件外部数据的 hooks，React 官方建议这个 hooks 应该给库的开发者使用，不建议应用开发者直接去进行使用，但是现在很多新的 React 状态管理库都在使用它，比如 valtio，zustand ，所以了解一下它的基本原理还是很有必要的。
 
-```
+#### API：
+
+```react
 useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot?)
 ```
 
@@ -15,7 +17,7 @@ subscribe 函数应该用于订阅外部的数据，并且返回一个取消订�
 #### 示例代码:
 
 ```js
-import { Suspense, useEffect, useSyncExternalStore } from "react";
+import { Suspense, useEffect, useSyncExternalStore } from 'react';
 
 // 存放事件监听器的地方
 let listeners: Array<() => void> = [];
@@ -74,7 +76,7 @@ export default function Component() {
 }
 ```
 
-其实这个 Hooks 的原理也很简单，我们去看一眼 React 的源码，源码在仓库的  [packages/use-sync-external-store/src/useSyncExternalStoreShimClient.js](https://github.com/facebook/react/blob/main/packages/use-sync-external-store/src/useSyncExternalStoreShimClient.js)，这个包是由 React 官方提供的垫片，可以在 React 18以下的版本去使用，但是它是一个同步版本的，不支持 React 18的 Concurrent Mode，在React 18 中，使用 React 导出的内建版本即可。在 Valtio 内部就是用了下面这个包：**use-sync-external-store/shim** 来作为垫片使用的。
+其实这个 Hooks 的原理也很简单，我们去看一眼 React 的源码，源码在仓库的 [packages/use-sync-external-store/src/useSyncExternalStoreShimClient.js](https://github.com/facebook/react/blob/main/packages/use-sync-external-store/src/useSyncExternalStoreShimClient.js)，这个包是由 React 官方提供的垫片，可以在 React 18 以下的版本去使用，但是它是一个同步版本的，不支持 React 18 的 Concurrent Mode，在 React 18 中，使用 React 导出的内建版本即可。在 Valtio 内部就是用了下面这个包：**use-sync-external-store/shim** 来作为垫片使用的。
 
 #### 源码：
 
@@ -86,7 +88,7 @@ export function useSyncExternalStore(subscribe, getSnapshot) {
   const value = getSnapshot();
   // 可以调用 forceUpdate 强制让视图重渲染，因为它每次返回的 {inst} 对象都会是一个新的内存地址
   const [{ inst }, forceUpdate] = useState({ inst: { value, getSnapshot } });
- 
+
   // 当 subscribe，value 数据快照，getSnapshot 发生变化的时候就重新赋值并刷新视图
   useLayoutEffect(() => {
     // 将最新的数据快照和 getSnapshot 函数存到 inst 对象中
@@ -149,7 +151,4 @@ function is(x, y) {
 
 其实原理就是当组件订阅的外部数据发生了变化时，就直接去强制刷新视图，forceUpdate 一下就可以了
 
-我们上一篇文章中介绍到的 Zustand 和 Valtio 底层都使用到了这个 API，果然是 DaShi 你啊
-
 Zustand 为什么不需要像 Redux 一样需要使用 Provider 传递数据也是因为得益于这个 API 的实现~
-
