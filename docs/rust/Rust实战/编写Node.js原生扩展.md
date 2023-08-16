@@ -1,12 +1,6 @@
 ## 前言
 
-本文将从零带你去使用 Rust 构建一个 Node.js 原生扩展(Native Addon)，为什么要学这个？ 正如我们之前所提到的，Rust 可以给 Node.js 打开性能逃生的通道。当我们使用 Node.js 去写 Web 服务或者一些提效工具遇到 CPU 密集计算的时候，这时候就可以上 Rust 了。这里贴一组我之前使用 Rust 和 TypeScript 写的相同功能的一个包的性能对比，这个包的作用是将 JsonSchema 转换为 TypeScript 类型，它们的代码逻辑是完全一样的，最后得到的结果是性能提升了接近 100% ，当然换 C++ 或者 C 语言来写可能也差不多是这个结果，但是我更熟悉 Rust 一些~
-
-
-| index | Task Name             | ops/sec | Average Time (ns)  | Margin | Samples |
-| ----- | --------------------- | ------- | ------------------ | ------ | ------- |
-| 0     | TypeScript: schema2ts | 2,796   | 357534.31021794415 | ±1.08% | 1399    |
-| 1     | Rust: rustySchema2ts  | 5,431   | 184122.05448994122 | ±0.29% | 2716    |
+本文将从零带你去使用 Rust 构建一个 Node.js 原生扩展(Native Addon)，为什么要学这个？ 正如我们之前所提到的，Rust 可以给 Node.js 打开性能逃生的通道。当我们使用 Node.js 去写 Web 服务或者一些提效工具遇到 CPU 密集计算的时候，这时候就可以上 Rust 了。
 
 如果你感兴趣的话可以去 npm 搜一下 @puffmeow/rusty-schema2ts 这个包，它就是用 Rust napi-rs 写的。
 
@@ -91,4 +85,3 @@ test
     │   └── lib.rs
     └── yarn.lock
 ```
-

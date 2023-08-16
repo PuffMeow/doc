@@ -13,7 +13,11 @@ webpackProcess.on('close', (code) => {
   console.log(`Webpack 进程退出 code: ${code}`);
 });
 
+let lock = false;
+
 const handler = (path, stat) => {
+  if (lock) return;
+  lock = true;
   console.log(path);
   // 杀死之前的Webpack进程
   webpackProcess.kill();
@@ -24,6 +28,7 @@ const handler = (path, stat) => {
       shell: true, // 设置为true以运行shell命令
       stdio: 'inherit', // 将子进程的输入输出与父进程绑定，使其共享终端
     });
+    lock = false;
   });
 };
 
