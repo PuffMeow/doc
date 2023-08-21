@@ -9,6 +9,7 @@ export default {
     '/network/': getSideBarConfig('network'),
     '/system/': getSideBarConfig('system'),
     '/tools/': getSideBarConfig('tools'),
+    '/note/': getSideBarConfig('note'),
   },
   nav: [
     { text: '前端', link: '/frontend/' },
@@ -22,6 +23,10 @@ export default {
         { text: '操作系统', link: '/system/' },
         { text: '开发工具', link: '/tools/' },
       ],
+    },
+    {
+      text: '杂记',
+      link: '/note/',
     },
   ],
 };
