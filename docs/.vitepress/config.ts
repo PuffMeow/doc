@@ -44,7 +44,7 @@ export default {
     siteTitle: '学习使我快乐',
     footer: {
       message: '每天进步一丢丢',
-      copyright: 'Copyright © 2023 PuffMeow',
+      copyright: `Copyright © ${new Date().getFullYear()} PuffMeow`,
     },
     docFooter: {
       prev: '👈瞧瞧上一篇',
