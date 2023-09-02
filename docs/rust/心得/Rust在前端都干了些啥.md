@@ -41,12 +41,14 @@ Deno 给出的一个现代化解决方案就是使用裸说明符来引入，比
 }
 ```
 
-使用方式也很简单，还是和以前一样，oak(类似于 Koa 的服务端框架) 来自于 deno， chalk 来自于 npm
+使用方式也很简单，还是和以前一样，oak(类似于 Koa 的服务端框架) 来自于 deno， chalk 来自于 npm。
 
 ```json
 import oak from "oak";
 import chalk from "chalk";
 ```
+
+官方也提供了 NPM 编译器（DNT）将 Deno 的代码转换为 NPM 包可以供 Node.js 直接使用。
 
 总的来说，Deno 在向好的方向发展，自己捡回了以前 node 积累下来的生态去走兼容路线，并且同时在发展自己的特色。
 
@@ -62,10 +64,10 @@ import chalk from "chalk";
 | [√] 内置浏览器标准 API                                                            | [×] 不覆盖完整的浏览器 API   |
 | [√] 所有标准库                                                                    | [×] 有限的标准库             |
 
-同时网络请求的性能也超 Node.js 一倍，当然这些都是实验性数据，实际上生产项目后效果怎样还要打个问号 ？
+同时 Web Server 请求的性能也超 Node.js 一倍，当然这些都是实验性数据，实际上生产项目后效果怎样还要打个问号 ？
 
 ![image-20230830002425523](https://cdn.jsdelivr.net/gh/PuffMeow/PictureSave/doc/image-20230830002425523.png)
 
 另外还有一个用 Zig 语言写的 Bun JavaScript 运行时也值得关注一下~
 
-其实一开始我对于 Deno 是抱着比较
+我个人对于 Deno 的发展还是抱着比较乐观的心态的，等他真正成熟了以后可以多一个选择，TypeScript 开箱即用以及零配置的理念还是很好的，对于开发者来说可以开箱即用，不需要搞一大堆的配置。关于安全的特性，Node.js 在 20 版本之后开启了实验性支持，这点也是跟随 Deno，但是其它 Deno 好用的特性不知道以后 Node.js 会不会跟上。
