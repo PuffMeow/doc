@@ -193,8 +193,20 @@ rules: [
 
 ![image-20230903225449281](https://cdn.jsdelivr.net/gh/PuffMeow/PictureSave/doc/image-20230903225449281.png)
 
+### Rome
+
+这东西的目标很宏大，目标是成为一站式的前端工具链解决方案，用来代替 ESLint、Prettier、Babel、Webpack、Jest 等我们常见的前端工具，致力于最小的配置量，尽力做到开箱即用，并且拥有着很高的性能。
+
+但是就在最近它中道崩殂了，看了原因说是老板跑路了，把所有员工都给炒鱿鱼了，就是公司没了。最后原团队核心成员 Fork 了一份仓库并命名为 Biome，然后原作者入职了一家新的公司（就是 Astro 的公司，Astro 是类似于 Next.js 的框架），并会利用业余时间来进行维护。
+
+![image-20230904235938302](https://cdn.jsdelivr.net/gh/PuffMeow/PictureSave/doc/image-20230904235938302.png)
+
+不得不说，目标很宏远，但是现实很残忍，最后还是回归到开发者自己用情怀来发电。虽然这个我没用过，但是我觉得它的理念还是挺好的，确实能减少很多开发者开发时的心智和项目配置成本。
+
 ### Rspack
+
+
 
 ### Farm
 
-### Rome
+### 
