@@ -1,6 +1,7 @@
-const watch = require('glob-watcher');
-const { spawn } = require('child_process');
-const killPort = require('kill-port');
+import watch from 'glob-watcher';
+import { spawn } from 'child_process';
+import killPort from 'kill-port';
+
 const watcher = watch(['docs/**/*.md', 'utils']);
 
 const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm'; // 跨平台处理npm命令

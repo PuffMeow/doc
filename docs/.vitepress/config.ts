@@ -1,7 +1,8 @@
-import themeConfig from '../../themeConfig';
+import { defineConfig } from 'vitepress';
+import navConfig from '../../navConfig';
 
 // 配置地址:https://vitepress.vuejs.org/guide/configuration
-export default {
+export default defineConfig({
   title: 'PuffMeow',
   description: 'PuffMeow',
   base: '/doc/',
@@ -34,12 +35,32 @@ export default {
   markdown: {
     lineNumbers: true,
   },
-  editLink: {
-    pattern: 'https://github.com/vuejs/vitepress/edit/main/docs/:path',
-    text: '编辑此页',
-  },
   themeConfig: {
-    ...themeConfig,
+    ...navConfig,
+    outline: 'deep',
+    search: {
+      provider: 'local',
+      options: {
+        locales: {
+          zh: {
+            translations: {
+              button: {
+                buttonText: '搜索文档',
+                buttonAriaLabel: '搜索文档',
+              },
+              modal: {
+                noResultsText: '无法找到相关结果',
+                resetButtonTitle: '清除查询条件',
+                footer: {
+                  selectText: '选择',
+                  navigateText: '切换',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
     lastUpdatedText: '更新时间',
     siteTitle: '学习使我快乐',
     footer: {
@@ -58,4 +79,4 @@ export default {
       },
     ],
   },
-};
+});

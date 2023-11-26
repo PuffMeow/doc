@@ -5,6 +5,7 @@
   "repository": "git@github.com:PuffMeow/doc.git",
   "author": "JiquanWang99 <951873902@qq.com>",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "dev": "vitepress dev docs",
     "build": "vitepress build docs",
@@ -25,8 +26,8 @@
     "glob-watcher": "^6.0.0",
     "kill-port": "^2.0.1",
     "prettier": "2.8.2",
-    "typescript": "^5.2.2",
-    "vitepress": "1.0.0-rc.7",
-    "vue": "^3.3.4"
+    "typescript": "^5.3.2",
+    "vitepress": "1.0.0-rc.31",
+    "vue": "^3.3.8"
   }
 }

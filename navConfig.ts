@@ -16,6 +16,10 @@ export default {
     { text: '服务端', link: '/backend/' },
     { text: 'Rust', link: '/rust/' },
     {
+      text: '杂记',
+      link: '/note/',
+    },
+    {
       text: '计算机基础',
       items: [
         { text: '数据结构/算法', link: '/algorithm/' },
@@ -23,10 +27,6 @@ export default {
         { text: '操作系统', link: '/system/' },
         { text: '开发工具', link: '/tools/' },
       ],
-    },
-    {
-      text: '杂记',
-      link: '/note/',
     },
   ],
 };
