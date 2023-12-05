@@ -1,6 +1,6 @@
 ## 简介
 
-众所周知，Rust 是一门性能高、安全性高的原生语言，它拥有和 C++ 相媲美的性能表现，但是却能在编译期帮你杜绝很多隐藏的内存层面的 Bug 。它通过遵循所有权、借用检查、生命周期等规则，一旦代码编译通过，就可以信心满满地向全世界宣布：这个代码是安全的！这也是为什么说 Rust 更适合做一些底层方面的事情，比如操作系统、数据库、物联网设备、计算领域等。现如今 Rust 已经进入了安卓系统、Windows 系统、Linux 系统中，这三个都是我们日常生活中最常用的系统，还有社区上开源的一个纯 Rust 编写的类 Unix 系统 [Redox](https://doc.redox-os.org/book/ch00-00-introduction.html)；而在最近，Vivo 也发布了使用 Rust 编写系统框架的蓝河操作系统。
+众所周知，Rust 是一门性能高、安全性高的原生语言，它拥有和 C++ 相媲美的性能表现，但是却能在编译期帮你杜绝很多隐藏的内存层面的 Bug 。它通过遵循所有权、借用检查、生命周期等规则，一旦代码编译通过，就可以向全世界宣布：老子的代码是内存安全的！这也是为什么说 Rust 更适合做一些底层方面的事情，比如操作系统、数据库、物联网设备、计算领域等。现如今 Rust 已经进入了安卓系统、Windows 系统、Linux 系统中，这三个都是我们日常生活中最常用的系统，还有社区上开源的一个纯 Rust 编写的类 Unix 系统 [Redox](https://doc.redox-os.org/book/ch00-00-introduction.html)；而在最近，Vivo 也发布了使用 Rust 编写系统框架的蓝河操作系统。
 
 那么对于我们写应用层的，Rust 有没有用呢？ 那当然有。写应用的时候，在适合的地方使用 Rust 也可以获得很不错的性能收益。如果你是前端，可以使用 N-API 来编写 Node.js 原生拓展或者编写 WebAssembly 模块；如果你是写 Python 的，可以使用 [Pyo3](https://crates.io/crates/pyo3) 来编写原生 Python 拓展模块；如果你是写安卓的，也可以使用 Rust 的所有特性来编写原生操作系统组件([参见](https://source.android.com/docs/setup/build/rust/building-rust-modules/overview?hl=zh-cn))；总而言之，Rust 其实已经进入了我们生活的方方面面了，说不定你现在用的设备里的某个软件就包含着 Rust 的代码。
 
