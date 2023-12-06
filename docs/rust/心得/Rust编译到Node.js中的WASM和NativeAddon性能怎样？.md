@@ -33,7 +33,7 @@
 
 以上测试全部使用 Rust release 模式。
 
-Native Addon 本质上是编译为系统的动态链接库，当 Node.js 的 Native 模块在、Linux、 OSX 下编译时，会得到一个带 .node 后缀的 DLL，本质上就是 .dylib，而在 Windows 系统下，.node 本质上就是 .dll。
+Native Addon 本质上是编译为系统的动态链接库，当 Node.js 的 Native 模块在Linux、 OSX 下编译时，会得到一个带 .node 后缀的 DLL，本质上就是 .dylib，而在 Windows 系统下，.node 本质上就是 .dll。
 
 > 动态链接库就是会在程序运行时才会把库载入到内存中，然后根据需要再去调用执行库里面的代码。
 
