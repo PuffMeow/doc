@@ -182,8 +182,8 @@ pub fn sum(a: i32, b: i32) -> i32 {
 
 之前我自己也写了两个 Rust 编写的 Native Addon，也可以去做下参考，分别是：
 
-- @puffmeow/rusty-schema2ts：将 json-schema 转换成 TS 类型的库，性能比纯 JS 版的要快 1 倍。
-- @puffmeow/rusty-walkdir：遍历目录，对 Rust 版的 walkdir 进行了封装，暴露给 node.js 使用
+- [@puffmeow/rusty-schema2ts](https://github.com/PuffMeow/rusty-schema2ts)：将 json-schema 转换成 TS 类型的库，性能比纯 JS 版的要快 1 倍。
+- [@puffmeow/rusty-walkdir](https://github.com/PuffMeow/rusty-walkdir)：遍历目录，对 Rust 版的 walkdir 进行了封装，暴露给 node.js 使用
 
 NAPI 官方也提供了一些包，比如 [node-rs](https://github.com/napi-rs/node-rs)， 想要自己编写 Native Addon 的话可以去参考一下，里面提供的包对比 JS 版都有了很大的性能提升。
 
