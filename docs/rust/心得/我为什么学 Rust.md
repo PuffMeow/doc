@@ -14,7 +14,7 @@
 
 ### 性能
 
-Rust 可以给 Node.js 提供一个性能逃生通道，当我们使用 Node.js 遇到性能瓶颈或 CPU 密集计算场景的时候，便可以使用 Rust 编写 Native Addon 解决这个问题了，Native Addon 就是一个二进制文件，也就是 xxx.node 文件，比如 swc(对应 babel)、Rspack(对应Webpack)、Rome(对应 eslint、prettier、babel、webpack 等，目标是代替我们所熟悉的所有前端工具链...)，上面提到的工具链就都是使用 Rust 编写的，性能比 Node.js 对应功能的包都有了极大的提高，同时 Rust 也是支持多线程的，你编写的多线程代码在 Node.js 中一样可以跑，这就可以解决了 Node.js 不擅长 CPU 密集型的问题。在前端架构领域目前 Rust 已经差不多是标配了，阿里、字节内部的前端基建目前都开始基于 Rust 去重构了。
+Rust 可以给 Node.js 提供一个性能逃生通道，当我们使用 Node.js 遇到性能瓶颈或 CPU 密集计算场景的时候，便可以使用 Rust 编写 Native Addon 解决这个问题了，Native Addon 就是一个二进制文件，也就是 xxx.node 文件，比如 swc(对应 babel)、Rspack(对应 Webpack)、Rome(对应 eslint、prettier、babel、webpack 等，目标是代替我们所熟悉的所有前端工具链...)，上面提到的工具链就都是使用 Rust 编写的，性能比 Node.js 对应功能的包都有了极大的提高，同时 Rust 也是支持多线程的，你编写的多线程代码在 Node.js 中一样可以跑，这就可以解决了 Node.js 不擅长 CPU 密集型的问题。在前端架构领域目前 Rust 已经差不多是标配了，阿里、字节内部的前端基建目前都开始基于 Rust 去重构了。
 
 ### 跨平台
 
