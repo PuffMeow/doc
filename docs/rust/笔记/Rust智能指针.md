@@ -230,28 +230,35 @@ Writer: Data updated to [1, 2, 3, 4]
 你还可以创建自定义的智能指针，通过实现 `Deref` 和 `Drop` 特征来定制行为：
 
 ```rust
-use std::ops::{Deref, DerefMut, Drop};
+use std::ops::{Deref, Drop};
 
+// 定义包含一个值的自定义智能指针结构体
 struct MySmartPointer<T>(T);
 
-// 实现 Deref 让我们可以像使用普通引用一样使用智能指针
+// 实现 Deref trait，允许像引用一样使用智能指针
 impl<T> Deref for MySmartPointer<T> {
     type Target = T;
-    fn deref(&self) -> &T {
+
+    fn deref(&self) -> &Self::Target {
         &self.0
     }
 }
 
-// 实现 Drop 让我们可以定义离开作用域时的清理逻辑
+// 实现 Drop trait，定义离开作用域时的清理逻辑
 impl<T> Drop for MySmartPointer<T> {
     fn drop(&mut self) {
-        println!("Dropping MySmartPointer with data: {}", self.0);
+        println!("Drop MySmartPointer");
     }
 }
 
 fn main() {
-    let my_pointer = MySmartPointer::new(5);
+    // 创建一个 MySmartPointer 实例
+    let my_pointer = MySmartPointer("Hello, Rust!");
+
+    // 使用 Deref trait，以引用方式访问内部值
     println!("Value: {}", *my_pointer);
+
+    // my_pointer 离开作用域时，Drop trait 触发清理逻辑
 }
 ```
 
